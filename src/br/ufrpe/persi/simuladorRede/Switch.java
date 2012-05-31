@@ -1,0 +1,22 @@
+package br.ufrpe.persi.simuladorRede;
+import java.util.ArrayList;
+
+public class Switch extends Dispositivo {
+	
+	public Switch(int newNumeroDeInterfaces) {
+		super();
+		this.dispositivosConectados = new ArrayList<Dispositivo>();
+		this.numeroDeInterfaces = newNumeroDeInterfaces;
+	}
+
+	@Override
+	public void processarPacote(Pacote pacote) {
+		for(int i = 0 ; i < dispositivosConectados.size() ; i++){
+			//Dispositivos na mesma rede
+			if(dispositivosConectados.get(i).getConfiguracao().getIp().equals(pacote.getDestino().getConfiguracao().getIp())){
+				dispositivosConectados.get(i).processarPacote(pacote);
+				return;
+			}
+		}
+	}
+}

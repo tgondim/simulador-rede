@@ -1,0 +1,60 @@
+
+#div_devices{
+
+	margin-top: 50px;
+}
+
+#div_devices img{
+
+	width: 60px;
+	height: 60px;
+}
+
+#droppable img{
+	width: 60px;
+	height: 60px;
+}
+
+#devices_list{
+
+	list-style: none;
+}
+
+#devices_list li{
+
+	display: inline;
+
+}
+
+#droppable{
+
+	height: 500px;
+}
+
+#terminal{
+
+	padding: 0px;
+	background: black;
+	width: 1015px;
+	height: 110px;
+
+}
+
+#text_terminal{
+
+	margin: 0px 0px 0px 0px;
+	width: 1005px;
+	height: 100px;
+	color: white;
+	background: black;
+}
+
+#switch_table{
+
+	display: none;
+}
+
+#router_table{
+	
+	display: none;
+}
