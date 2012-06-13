@@ -42,13 +42,6 @@ public abstract class Dispositivo {
 		this.macAddress = macAddress;
 	}
 	
-	public long getNomeRede() {
-		long mascara = Long.valueOf(this.getConfiguracao().getMascara().replace(".", ""));
-		long ip = Long.valueOf(this.getConfiguracao().getIp().replace(".", ""));
-		long rede = mascara & ip; 
-		return rede;
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Dispositivo) {
@@ -59,6 +52,10 @@ public abstract class Dispositivo {
 	
 	@Override
 	public int hashCode() {
-		return Integer.parseInt(this.getConfiguracao().getIp().replace(".", ""));
+		int hashCode = 0;
+		for (int fragmentoIp : this.getConfiguracao().getIp().getEndereco()) {
+			hashCode += fragmentoIp;
+		}
+		return hashCode;
 	}
 }

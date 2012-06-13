@@ -2,65 +2,81 @@ package br.ufrpe.persi.simuladorRede;
 
 public class ConfiguracaoRede {
 	
-	private String ip;
-	private String mascara;
-	private String gateway;
-	private String dns1;
-	private String dns2;
+	private EnderecoIP ip;
+	private EnderecoIP mascara;
+	private Dispositivo gateway;
+//	private Dispositivo dns1;
+//	private Dispositivo dns2;
 	
-	public ConfiguracaoRede(String ip, String mascara, String gateway,
-			String dns1, String dns2) {
+	public ConfiguracaoRede(EnderecoIP ip, EnderecoIP mascara, Dispositivo gateway,
+			Dispositivo dns1, Dispositivo dns2) {
 		super();
 		this.ip = ip;
 		this.mascara = mascara;
 		this.gateway = gateway;
-		this.dns1 = dns1;
-		this.dns2 = dns2;
+//		this.dns1 = dns1;
+//		this.dns2 = dns2;
 	}
 	
 	public ConfiguracaoRede() {
 		super();
 	}
 
-	public String getIp() {
+	public EnderecoIP getNomeRede(EnderecoIP enderecoIP) {
+		int[] auxNomeRede = new int[4];
+		for (int i = 0; i <= 3; i++) {
+			auxNomeRede[i] = (enderecoIP.getEndereco()[i] & this.mascara.getEndereco()[i]);
+		}		
+		return new EnderecoIP(auxNomeRede);
+	}
+	
+	public boolean mesmaRede(EnderecoIP enderecoIP) {
+		int[] auxNomeRede = new int[4];
+		for (int i = 0; i <= 3; i++) {
+			auxNomeRede[i] = (enderecoIP.getEndereco()[i] & this.mascara.getEndereco()[i]);
+		}			
+		return new EnderecoIP(auxNomeRede).equals(this.getNomeRede(this.ip));
+	}
+	
+	public EnderecoIP getIp() {
 		return ip;
 	}
 
-	public void setIp(String ip) {
+	public void setIp(EnderecoIP ip) {
 		this.ip = ip;
 	}
 
-	public String getMascara() {
+	public EnderecoIP getMascara() {
 		return mascara;
 	}
 
-	public void setMascara(String mascara) {
+	public void setMascara(EnderecoIP mascara) {
 		this.mascara = mascara;
 	}
 
-	public String getGateway() {
+	public Dispositivo getGateway() {
 		return gateway;
 	}
 
-	public void setGateway(String gateway) {
+	public void setGateway(Dispositivo gateway) {
 		this.gateway = gateway;
 	}
 
-	public String getDns1() {
-		return dns1;
-	}
-
-	public void setDns1(String dns1) {
-		this.dns1 = dns1;
-	}
-
-	public String getDns2() {
-		return dns2;
-	}
-
-	public void setDns2(String dns2) {
-		this.dns2 = dns2;
-	}
+//	public Dispositivo getDns1() {
+//		return dns1;
+//	}
+//
+//	public void setDns1(Dispositivo dns1) {
+//		this.dns1 = dns1;
+//	}
+//
+//	public Dispositivo getDns2() {
+//		return dns2;
+//	}
+//
+//	public void setDns2(Dispositivo dns2) {
+//		this.dns2 = dns2;
+//	}
 
 	@Override
 	public boolean equals(Object obj) {

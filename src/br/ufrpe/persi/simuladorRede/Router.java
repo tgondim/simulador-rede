@@ -5,34 +5,35 @@ import java.util.Map;
 
 public class Router extends Dispositivo {
 	
-	private Map<Long, Dispositivo> tabelaRoteamento;
+	private Map<EnderecoIP, Dispositivo> tabelaRoteamento;
 	
 	public Router(int newNumeroDeInterfaces) {
 		super();
 		this.dispositivosConectados = new ArrayList<Dispositivo>();
-		this.tabelaRoteamento = new HashMap<Long, Dispositivo>();
+		this.tabelaRoteamento = new HashMap<EnderecoIP, Dispositivo>();
 		this.numeroDeInterfaces = newNumeroDeInterfaces;
 	}
 
 	@Override
 	public void processarPacote(Pacote pacote) {
-		if (pacote.getOrigem().getNomeRede() == pacote.getDestino().getNomeRede()) {
+		if (this.getConfiguracao().mesmaRede(pacote.getDestino())) {				
 			for (Dispositivo disp : this.dispositivosConectados) {
-				if(disp.getConfiguracao().getIp().equals(pacote.getDestino().getConfiguracao().getIp())) {
+//				if(disp.getConfiguracao().getIp().equals(pacote.getDestino())) {
 					disp.processarPacote(pacote);
-					return;
-				}
+//					return;
+//				}
 			}
 		} else {
-			if (this.tabelaRoteamento.containsKey(pacote.getDestino().getNomeRede())) {
-				this.tabelaRoteamento.get(pacote.getDestino().getNomeRede()).processarPacote(pacote);
+			EnderecoIP nomeRede = this.configuracao.getNomeRede(pacote.getDestino());
+			if (this.tabelaRoteamento.containsKey(nomeRede)) {
+				this.tabelaRoteamento.get(nomeRede).processarPacote(pacote);
 			} else {
 				//TODO tratar o caso de não haver rota
 			}
 		}
 	}
 	
-	public void adicionarRota(Long newRede, Dispositivo newDispositivo) {
+	public void adicionarRota(EnderecoIP newRede, Dispositivo newDispositivo) {
 		this.tabelaRoteamento.put(newRede, newDispositivo);
 	}
 }

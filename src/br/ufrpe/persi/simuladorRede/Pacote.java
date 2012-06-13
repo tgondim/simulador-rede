@@ -2,8 +2,8 @@ package br.ufrpe.persi.simuladorRede;
 
 public class Pacote {
 	
-	private Dispositivo origem;
-	private Dispositivo destino;
+	private EnderecoIP origem;
+	private EnderecoIP destino;
 	private String conteudo;
 	
 	public Pacote(String conteudo) {
@@ -11,29 +11,29 @@ public class Pacote {
 		this.conteudo = conteudo;
 	}
 	
-	public Pacote(String conteudo, Dispositivo newDestino) {
+	public Pacote(String conteudo, EnderecoIP newDestino) {
 		this(conteudo);
 		this.destino = newDestino;
 	}
 	
-	public Pacote(String conteudo, Dispositivo newOrigem, Dispositivo newDestino) {
+	public Pacote(String conteudo, EnderecoIP newOrigem, EnderecoIP newDestino) {
 		this(conteudo, newDestino);
 		this.origem = newOrigem;
 	}
 
-	public Dispositivo getOrigem() {
+	public EnderecoIP getOrigem() {
 		return origem;
 	}
 
-	public void setOrigem(Dispositivo origem) {
+	public void setOrigem(EnderecoIP origem) {
 		this.origem = origem;
 	}
 
-	public Dispositivo getDestino() {
+	public EnderecoIP getDestino() {
 		return destino;
 	}
 
-	public void setDestino(Dispositivo destino) {
+	public void setDestino(EnderecoIP destino) {
 		this.destino = destino;
 	}
 
