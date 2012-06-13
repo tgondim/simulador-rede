@@ -59,6 +59,15 @@ $(document).ready(function(){
 			tolerance: 'fit'
 		});
 	});
+	
+	$(function() {
+
+		$( "#droppable" ).draggable({
+			helper: 'clone',
+		    cursor: 'move',
+			tolerance: 'fit'
+		});
+	});
 
 	$("#droppable").droppable({
        accept: ".draggable",
@@ -89,8 +98,8 @@ $(document).ready(function(){
 
     });
 
-    ("#trash").droppable({
-	    accept: '.draggable',
+    $("#trash").droppable({
+	    accept: '#droppable',
 
 	    drop: function (ev, ui) {
 	        if ($(ui.draggable)[0].id == "") {

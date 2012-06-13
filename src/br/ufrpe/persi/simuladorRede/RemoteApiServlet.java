@@ -55,18 +55,18 @@ public class RemoteApiServlet extends HttpServlet implements Servlet {
         String city = "";
         
         String method = req.getParameter("method");
-        String parameter = req.getParameter("parameter"); 
+        String parameter = req.getParameter("parameter"); //Erro ao ler o parametro <Parameter> 
         
-        if(req.getParameter("city") != null) { 
-        	city = req.getParameter("city").trim();    
-        }
-        String state = (String)mpCityState.get(city);
-        if(state != null) {
-        	res.getWriter().write("{\"result\" : \"OK\", \"state\" : \"" + state + "\"}");
-        }
-        else {
-        	res.getWriter().write("{\"result\" : \"ERROR\", \"state\" : \"State not found for city\"}");    
-        }
+//        if(req.getParameter("city") != null) { 
+//        	city = req.getParameter("city").trim();    
+//        }
+//        String state = (String)mpCityState.get(city);
+//        if(state != null) {
+//        	res.getWriter().write("{\"result\" : \"OK\", \"state\" : \"" + state + "\"}");
+//        }
+//        else {
+//        	res.getWriter().write("{\"result\" : \"ERROR\", \"state\" : \"State not found for city\"}");    
+//        }
     }
     
     //protected void json_con
