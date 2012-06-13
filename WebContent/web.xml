@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<servlet-mapping>
+		<servlet-name>Service</servlet-name>
+		<url-pattern>/json/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>RemoteApi</display-name>
+		<servlet-name>RemoteApi</servlet-name>
+		<servlet-class>br.ufrpe.persi.simuladorRede.RemoteApi</servlet-class>
+	</servlet>
+</web-app>
