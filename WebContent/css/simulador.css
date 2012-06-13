@@ -58,3 +58,18 @@
 	
 	display: none;
 }
+
+.switch{
+	border: 3px solid black;
+}
+
+.hub,.computer{
+	border: 3px solid blue;
+}
+.router{
+	border: 3px solid pink;
+}
+
+#trash{
+	margin-left: 670px;
+}
