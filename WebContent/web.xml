@@ -2,15 +2,15 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
-	<servlet-mapping>
-		<servlet-name>Service</servlet-name>
-		<url-pattern>/json/*</url-pattern>
-	</servlet-mapping>
 	<servlet>
 		<description></description>
-		<display-name>RemoteApi</display-name>
-		<servlet-name>RemoteApi</servlet-name>
-		<servlet-class>br.ufrpe.persi.simuladorRede.RemoteApi</servlet-class>
+		<display-name>RemoteApiServlet</display-name>
+		<servlet-name>RemoteApiServlet</servlet-name>
+		<servlet-class>br.ufrpe.persi.simuladorRede.RemoteApiServlet</servlet-class>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>RemoteApiServlet</servlet-name>
+		<url-pattern>/RemoteApiServlet</url-pattern>
+	</servlet-mapping>
+
 </web-app>

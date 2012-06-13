@@ -1,29 +1,26 @@
 <HTML>
 <HEAD>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
-
-    //--Function to get the xmlhttp object
-    function getHttpObject(){
-        var xmlhttp = null;
-        if (window.XMLHttpRequest){xmlhttp=new XMLHttpRequest();}
-        else if (window.ActiveXObject){xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");}
-        else {alert("Your browser does not support XMLHTTP!");}
-        return xmlhttp;
-    }    
-
-    //--Function to populate the school select box
     function populateState(str){
-        xmlhttp = getHttpObject();
-        xmlhttp.onreadystatechange=function(){
-            if(xmlhttp.readyState==4){
-                ajxfrm.state.value=xmlhttp.responseText;
-            }
-        }
-        xmlhttp.open("GET","RemoteApi?city="+str,true);
-        xmlhttp.send(null);
+    	 var parameters = {"city" : str};
+   		$.ajax({
+   			  url: "RemoteApiServlet",
+   			  type: "POST",
+   			  async: "true",
+   			  dataType: "json",	  
+   			  data: parameters,	  
+   			success: function(data) {
+   				if (data.result == "OK") {
+   					ajxfrm.state.value = data.state;
+   				} else {
+   					alert(data.state);
+   				}
+   		   	 }
+   			});
     }
-
-
+    
+    
 </script>
 </HEAD>
 <BODY>
