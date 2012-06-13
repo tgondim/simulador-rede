@@ -75,7 +75,7 @@ $(document).ready(function(){
 
             if ($(ui.drag)[0] != "") {
 
-                var pos = ui.helper.offset();
+                var pos = ui.helper.offset(); 
                
                 x = ui.helper.clone();
                 ui.helper.remove();
