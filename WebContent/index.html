@@ -1,223 +1,149 @@
 <!DOCTYPE html>
 
-<html lang="pt-br">	
-	
-	<head>
+<html lang="pt-br">
 
-		<meta charset="UTF-8">
+<head>
 
-		<title>Simulador de Redes - UFRPE</title>
+<meta charset="UTF-8">
 
-		<meta name="author" content="danilo soares @ ufrpe">
-		<meta name="copyright" content="ufrpe &copy; 2012">
-		<meta name="description" content="Simulador de redes - Configuração TCP/IP.">
-		<meta name="distribution" content="web">
-		<meta name="generator" content="sublime text 2">
-		<meta name="robots" content="noindex,nofollow">	
+<title>Simulador de Redes - UFRPE</title>
 
-		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui-1.8.20.custom.min.js"></script>
-		<link rel="stylesheet" href="css/bootstrap.min.css"/>
-		<link rel="stylesheet" href="css/simulador.css"/>
-		<script src="js/simulador.js" type="text/javascript"></script>
-		<script src="js/bootstrap.min.js" type="text/javascript"></script>
-		<script src="js/mask.js" type="text/javascript"></script>
-		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
-		
-	</head>
+<meta name="author"
+	content="danilo soares;Nielson Santana; Tiago Gondim; Fabio Santos; Siedberg ; Raphael Ribeiro; Marcelo Coelho @ ufrpe">
+<meta name="copyright" content="ufrpe &copy; 2012">
+<meta name="description"
+	content="Simulador de redes - Configuração TCP/IP.">
+<meta name="distribution" content="web">
+<meta name="generator" content="sublime text 2">
+<meta name="robots" content="noindex,nofollow">
 
-	<body>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.20.custom.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/simulador.css" />
+<script src="js/simulador.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/mask.js" type="text/javascript"></script>
+<link type="text/css"
+	href="css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
+<script type="text/javascript" charset="utf-8">
+	function callServer(method, parameter) {
+		var parameters = {
+			"method" : method,
+			"parameter" : parameter
+		};
 
-		<div class="navbar">
+		$.ajax({
+			url : "RemoteApiServlet",
+			type : "POST",
+			async : "true",
+			dataType : "json",
+			data : parameters,
+			success : handlerSucesseCallServer,
+			error : handleErrorCallServer,
+		});
+	}
 
-			<div class="navbar-inner">
+	// function(data) {
+	// if (data.result == "OK") {
+	// //ajxfrm.state.value = data.state;
+	// handlerSucesseCallServer(data);
+	// } else {
+	// alert(data.state);
+	// }
+	// }
 
-				<div class="container">
+	function handlerSucesseCallServer(data) {
 
-					<ul class="nav">
+	}
 
-						<li class="link_nav">
-							<a href="/home"><i class="icon-white icon-home"></i> Home</a>
-						</li>
-						  
-						<li class="link_nav">
-							<a href="modal_sobre" data-toggle="modal"><i class="icon-white icon-plus-sign"></i> Sobre</a>
-						</li>
-					
-					</ul>
+	function handleErrorCallServer(jqXHR, textStatus, errorThrown) {
 
-				</div>
+	}
+
+	function testServer() {
+		var parameter = {
+			"rede" : {
+				"rede1" : {
+					"switch" : {
+						"switch1" : [ "pc1", "pc2" ]
+					},
+					"pc" : {
+						"pc1" : {
+							"ip" : "10.0.0.100",
+							"mac" : "",
+							"mask" : "255.255.255.0",
+							"interface" : {
+								1 : [ "switch1" ]
+							},
+						},
+						"pc2" : {
+							"ip" : "10.0.0.101",
+							"mac" : "",
+							"mask" : "255.255.255.0",
+							"interface" : {
+								1 : [ "switch1" ]
+							},
+						}
+					},
+				}
+			}
+		}
+		callServer("configNetwork", parameter);
+	}
+</script>
+
+</head>
+
+<body>
+
+	<div class="navbar">
+
+		<div class="navbar-inner">
+
+			<div class="container">
+
+				<ul class="nav">
+
+					<li class="link_nav"><a href="/home"><i
+							class="icon-white icon-home"></i> Home</a></li>
+
+					<li class="link_nav"><a href="modal_sobre" data-toggle="modal"><i
+							class="icon-white icon-plus-sign"></i> Sobre</a></li>
+
+				</ul>
 
 			</div>
 
 		</div>
-			
-		<div id="div_devices" class="container-fluid">
-			
-			<div  class="row-fluid span12">
 
-				 <div class="span8 well">
-				 
-			 		<img class="draggable ui-draggable" class="ui-draggable" alt="Computer" title="Computer" src="img/computer.png"/>
-			 		<img class="draggable ui-draggable" class="ui-draggable" alt="Router" title="Router" src="img/router.png"/>
-			 		<img class="draggable ui-draggable" class="ui-draggable" alt="Switch" title="Switch" src="img/switch.png"/>
-			 		<img class="draggable ui-draggable" class="ui-draggable" alt="Hub" title="Hub" src="img/hub.png"/>
-				
-				 </div>
+	</div>
 
-				 <div class="span3 well">
+	<div id="div_devices" class="container-fluid">
 
-				 	<input class="input-file" id="file_input" type="file">
-				 	
-				 	<a class="btn btn-success"><i class="icon icon-ok"></i></a>
-				 				
-				 	<div class="progress progress-striped active">				 		
-						
-						<div class="bar" style="width: 40%;">
+		<div class="row-fluid span12">
 
-						</div>
+			<div class="span8 well">
 
-					</div>
-
-				 </div>
+				<img class="draggable ui-draggable" class="ui-draggable"
+					alt="Computer" title="Computer" src="img/computer.png" /> <img
+					class="draggable ui-draggable" class="ui-draggable" alt="Router"
+					title="Router" src="img/router.png" /> <img
+					class="draggable ui-draggable" class="ui-draggable" alt="Switch"
+					title="Switch" src="img/switch.png" /> <img
+					class="draggable ui-draggable" class="ui-draggable" alt="Hub"
+					title="Hub" src="img/hub.png" />
 
 			</div>
 
-		</div>
+			<div class="span3 well">
 
-		<div class="container-fluid">
+				<input class="input-file" id="file_input" type="file"> <a
+					class="btn btn-success"><i class="icon icon-ok"></i></a>
 
-			<div class="row-fluid span12">
-				 
-				 <div id="droppable" class="span8 well ui-droppable">
-		
-			     </div>
+				<div class="progress progress-striped active">
 
-				 <div class="span3 well">
-
-			      	<ul class="nav nav-tabs">
-
-					 	<li id="tab_computer" class=""><a href="#">Computer</a></li>
-					  	<li id="tab_router"><a href="#">Router</a></li>
-					  	<li id="tab_switch"><a href="#">Switch</a></li>
-					  	<li id="tab_hub"><a href="#">Hub</a></li>
-
-					</ul>
-
-					<form class="well">
-
-						<select>
-							<option>Lan 1</option>
-							<option>Lan 2</option>
-							<option>Lan 3</option>
-							<option>Lan 4</option>
-						</select>
-					  	<!--<label>Endereço de IP:</label>-->
-					  	<input id="endereco_ip" type="text" class="span3" placeholder="Endereço de IP">
-					  	<!--<label>Endereço de IP:</label>-->
-					  	<input id="mascara_sub_rede" type="text" class="span3" placeholder="Máscara de sub-rede">
-						<!--<label>Endereço de IP:</label>-->
-					  	<input id="gateway_padrao" type="text" class="span3" placeholder="Gateway padrão"> <br/>
-
-					  	<button type="submit" class="btn btn-success">Salvar Configurações</button>
-
-					</form>
-
-				  	<table class="table table-striped table-condensed table-bordered" id="router_table">
-
-				  		<thead>
-				  		
-				  			<th>Destination</th>
-				  			<th>Mask</th>
-				  			<th>Gateway</th>
-				  			<th>Interface</th>
-				  		
-				  		</thead>
-
-				  		<tbody>
-
-				  			<tr>
-				  				<td>127.0.0.1</td>
-				  				<td>127.0.0.1</td>
-				  				<td>127.0.0.1</td>
-				  				<td>127.0.0.1</td>
-				  			</tr>
-
-
-				  			<tr>
-				  				<td>127.0.0.1</td>
-				  				<td>127.0.0.1</td>
-				  				<td>127.0.0.1</td>
-				  				<td>127.0.0.1</td>
-				  			</tr>
-
-				  			<tr>
-				  				<td>127.0.0.1</td>
-				  				<td>127.0.0.1</td>
-				  				<td>127.0.0.1</td>
-				  				<td>127.0.0.1</td>
-				  			</tr>
-				  		</tbody>
-
-				  	</table>
-
-				  	<table class="table table-striped table-condensed table-bordered" id="switch_table">
-
-				  		<thead>
-				  		
-				  			<th>Mac-Address</th>
-				  			<th>Port</th>
-				  								 
-				  		</thead>
-
-				  		<tbody>
-
-				  			<tr>
-				  				
-				  				<td>00:00:5E:00:01:03</td>
-				  				<td>80</td>
-				  				
-				  			</tr>
-
-				  			<tr>
-				  				
-				  				<td>00:00:5E:00:01:03</td>
-				  				<td>80</td>
-				  				
-				  			</tr>
-
-				  	 	</tbody>
-
-				  	</table>
-						  		
-					<div class="alert alert-error">
-					  <button class="close" data-dismiss="alert">×</button>
-					  <strong>Erro!</strong> As configurações são inválidas.
-					</div>
-
-					<div class="alert alert-success">
-					  <button class="close" data-dismiss="alert">×</button>
-					  <strong>Concluído!</strong> As configurações foram salvas com sucesso.
-					</div>
-
-					<div class="alert alert-info">
-					  <button class="close" data-dismiss="alert">×</button>
-					  <strong>Sugestão!</strong> Tente a máscara 255.255.0.0!
-					</div>
-
-			     </div>
-			     
-			</div>
-
-		</div>
-		
-		<div class="container-fluid">
-
-			<div class="row-fluid span12">
-
-				<div id="terminal" class="span8 well">
-
-					<textarea id="text_terminal" type="text" placeholder="Enter your command"></textarea>
+					<div class="bar" style="width: 40%;"></div>
 
 				</div>
 
@@ -225,6 +151,168 @@
 
 		</div>
 
-	</body>
+	</div>
+
+	<div class="container-fluid">
+
+		<div class="row-fluid span12">
+
+			<div id="droppable" class="span8 well ui-droppable"></div>
+
+			<div class="span3 well">
+
+				<ul class="nav nav-tabs">
+
+					<li id="tab_computer" class=""><a href="#">Computer</a></li>
+					<li id="tab_router"><a href="#">Router</a></li>
+					<li id="tab_switch"><a href="#">Switch</a></li>
+					<li id="tab_hub"><a href="#">Hub</a></li>
+
+				</ul>
+
+				<form class="well">
+
+					<select>
+						<option>Lan 1</option>
+						<option>Lan 2</option>
+						<option>Lan 3</option>
+						<option>Lan 4</option>
+					</select>
+					<!--<label>Endereço de IP:</label>-->
+					<input id="endereco_ip" type="text" class="span3"
+						placeholder="Endereço de IP">
+					<!--<label>Endereço de IP:</label>-->
+					<input id="mascara_sub_rede" type="text" class="span3"
+						placeholder="Máscara de sub-rede">
+					<!--<label>Endereço de IP:</label>-->
+					<input id="gateway_padrao" type="text" class="span3"
+						placeholder="Gateway padrão"> <br />
+
+					<button type="submit" class="btn btn-success">Salvar
+						Configurações</button>
+					<input type="button" value="Testar Submeter Config Rede" onclick="testServer();" />
+
+				</form>
+
+				<table class="table table-striped table-condensed table-bordered"
+					id="router_table">
+
+					<thead>
+
+						<th>Destination</th>
+						<th>Mask</th>
+						<th>Gateway</th>
+						<th>Interface</th>
+
+					</thead>
+
+					<tbody>
+
+						<tr>
+							<td>127.0.0.1</td>
+							<td>127.0.0.1</td>
+							<td>127.0.0.1</td>
+							<td>127.0.0.1</td>
+						</tr>
+
+						<tr>
+							<td>127.0.0.1</td>
+							<td>127.0.0.1</td>
+							<td>127.0.0.1</td>
+							<td>127.0.0.1</td>
+						</tr>
+
+						<tr>
+							<td>127.0.0.1</td>
+							<td>127.0.0.1</td>
+							<td>127.0.0.1</td>
+							<td>127.0.0.1</td>
+						</tr>
+					</tbody>
+
+				</table>
+
+				<table class="table table-striped table-condensed table-bordered"
+					id="switch_table">
+
+					<thead>
+
+						<th>Mac-Address</th>
+						<th>Port</th>
+
+					</thead>
+
+					<tbody>
+
+						<tr>
+
+							<td>00:00:5E:00:01:03</td>
+							<td>80</td>
+
+						</tr>
+
+						<tr>
+
+							<td>00:00:5E:00:01:03</td>
+							<td>80</td>
+
+						</tr>
+
+					</tbody>
+
+				</table>
+
+				<div class="alert alert-error">
+					<button class="close" data-dismiss="alert">×</button>
+					<strong>Erro!</strong> As configurações são inválidas.
+				</div>
+
+				<div class="alert alert-success">
+					<button class="close" data-dismiss="alert">×</button>
+					<strong>Concluído!</strong> As configurações foram salvas com
+					sucesso.
+				</div>
+
+				<div class="alert alert-info">
+					<button class="close" data-dismiss="alert">×</button>
+					<strong>Sugestão!</strong> Tente a máscara 255.255.0.0!
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="container-fluid">
+
+		<div class="row-fluid span12">
+
+			<div id="terminal" class="span8 well">
+				<textarea id="text_terminal" type="text"
+					placeholder="Enter your command"></textarea>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
 
 </html>

@@ -1,5 +1,6 @@
 package br.ufrpe.persi.simuladorRede;
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.JsonPrimitive;
+import com.google.gson.stream.JsonReader;
 
 /*
  * 
@@ -49,6 +53,10 @@ public class RemoteApiServlet extends HttpServlet implements Servlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setHeader("Cache-Control", "no-store, no-cache");
         String city = "";
+        
+        String method = req.getParameter("method");
+        String parameter = req.getParameter("parameter"); 
+        
         if(req.getParameter("city") != null) { 
         	city = req.getParameter("city").trim();    
         }
@@ -60,5 +68,9 @@ public class RemoteApiServlet extends HttpServlet implements Servlet {
         	res.getWriter().write("{\"result\" : \"ERROR\", \"state\" : \"State not found for city\"}");    
         }
     }
+    
+    //protected void json_con
+    
+    
 
 }
