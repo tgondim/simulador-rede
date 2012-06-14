@@ -28,7 +28,7 @@
 
 #droppable{
 
-	height: 500px;
+	height: 320px;
 }
 
 #terminal{
@@ -37,6 +37,8 @@
 	background: black;
 	width: 1015px;
 	height: 110px;
+	clear: right;
+	float: left;
 
 }
 
@@ -74,3 +76,6 @@
 	margin-left: 670px;
 }
 
+.settings{
+	float: right;
+}
