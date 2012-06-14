@@ -32,6 +32,8 @@ $(document).ready(function(){
 	$("#tab_switch").click(function(){
 
 		$("#endereco_ip").fadeOut('slow', function(){});
+		$("#mascara_sub_rede").fadeOut('slow', function(){});
+		$("#gateway_padrao").fadeOut('slow', function(){});
 		$("#tab_router").removeClass("active");
 		$("#tab_computer").removeClass("active");
 		$("#tab_hub").removeClass("active");
@@ -59,15 +61,6 @@ $(document).ready(function(){
 			tolerance: 'fit'
 		});
 	});
-	
-	$(function() {
-
-		$( "#droppable" ).draggable({
-			helper: 'clone',
-		    cursor: 'move',
-			tolerance: 'fit'
-		});
-	});
 
 	$("#droppable").droppable({
        accept: ".draggable",
@@ -75,7 +68,7 @@ $(document).ready(function(){
 
             if ($(ui.drag)[0] != "") {
 
-                var pos = ui.helper.offset(); 
+                var pos = ui.helper.offset();
                
                 x = ui.helper.clone();
                 ui.helper.remove();
@@ -84,10 +77,8 @@ $(document).ready(function(){
 
                     helper: 'original',
 
-                    containment: '#droppable',
-
-                    tolerance: 'fit'
-
+                    //containment: '#droppable'
+                 
                 });
                    
                 x.appendTo('#droppable');
@@ -97,9 +88,9 @@ $(document).ready(function(){
         }
 
     });
-
-    $("#trash").droppable({
-	    accept: '#droppable',
+		 		
+	$("#trash").droppable({
+	    accept: '.draggable',
 
 	    drop: function (ev, ui) {
 	        if ($(ui.draggable)[0].id == "") {
@@ -134,7 +125,7 @@ $(document).ready(function(){
     }
 
 
-	function callServer(method, parameter) {
+    function callServer(method, parameter) {
 		var parameters = {
 			"method" : method,
 			"parameter" : parameter
