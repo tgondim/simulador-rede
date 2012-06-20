@@ -2,32 +2,32 @@ package br.ufrpe.persi.simuladorRede;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws EnderecoIPMalFormadoException {
 		
 		Host host1 = new Host(1);
 		ConfiguracaoRede configuracaoHost1 = new ConfiguracaoRede();
-		configuracaoHost1.setIp("10.0.0.100");
-		configuracaoHost1.setMascara("255.255.255.0");
+		configuracaoHost1.setIp(new EnderecoIP("10.0.0.100"));
+		configuracaoHost1.setMascara(new EnderecoIP("255.255.255.0"));
 		host1.setConfiguracao(configuracaoHost1);
 		
 		Host host2 = new Host(1);
 		ConfiguracaoRede configuracaoHost2 = new ConfiguracaoRede();
-		configuracaoHost2.setIp("10.0.0.101");
-		configuracaoHost2.setMascara("255.255.255.0");
+		configuracaoHost2.setIp(new EnderecoIP("10.0.0.101"));
+		configuracaoHost2.setMascara(new EnderecoIP("255.255.255.0"));
 		host2.setConfiguracao(configuracaoHost2);
 
 		Host host3 = new Host(1);
 		ConfiguracaoRede configuracaoHost3 = new ConfiguracaoRede();
-		configuracaoHost3.setIp("10.1.0.100");
-		configuracaoHost3.setMascara("255.255.255.0");
+		configuracaoHost3.setIp(new EnderecoIP("10.1.0.100"));
+		configuracaoHost3.setMascara(new EnderecoIP("255.255.255.0"));
 		host3.setConfiguracao(configuracaoHost3);
 		
 		Router router1 = new Router(32);
 		ConfiguracaoRede configuracaoRouter = new ConfiguracaoRede();
-		configuracaoRouter.setIp("10.0.0.99");
-		configuracaoRouter.setMascara("255.255.255.0");
+		configuracaoRouter.setIp(new EnderecoIP("10.0.0.99"));
+		configuracaoRouter.setMascara(new EnderecoIP("255.255.255.0"));
 		router1.setConfiguracao(configuracaoRouter);
-		router1.adicionarRota(Long.valueOf("10.1.0.100".replace(".", "")), host3);
+		router1.adicionarRota(new EnderecoIP("10.1.0.100"), host3);
 		
 		Switch switch1 = new Switch(8);
 		Switch switch2 = new Switch(8);
@@ -51,8 +51,8 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		Pacote pacote1 = new Pacote("Pacote enviado pelo switch", host2);
-		Pacote pacote2 = new Pacote("Pacote enviado pelo router", host3);
+		Pacote pacote1 = new Pacote("Pacote enviado pelo switch", configuracaoHost2.getIp());
+		Pacote pacote2 = new Pacote("Pacote enviado pelo router", configuracaoHost3.getIp());
 		host1.enviarPacote(pacote1);
 		host1.enviarPacote(pacote2);
 		System.out.println(host2.getPacote().getConteudo());
