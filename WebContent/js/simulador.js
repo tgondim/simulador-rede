@@ -114,7 +114,7 @@ $(document).ready(function() {
 
 					helper : 'original',
 
-					containment : '#droppable',
+					//containment : '#droppable',
 
 					tolerance : 'fit',
 
