@@ -5,26 +5,24 @@ import java.util.regex.Pattern;
 
 public class Parse {
 	
-	private String [] tokens;
+	private String [] token;
 	
-	//Exemplo: ping 10.193.0.1
-	private final String COMANDOVALIDO = "[a-z]+\\s{1,1}\\d{1,3}[.]\\d{1,3}[.]\\d{1,3}[.]\\d{1,3}\\s{1,1}[-][a-z]{1,1}";
-
 	public Parse() {
 		super();
-		this.tokens = new String[3];
 	}
 	
-	public void recebeComando(String comando) throws ComandoInvalidoException{
+	public void recebeComando(String comando) throws ComandoInvalidoException, EnderecoIPMalFormadoException{
 		
-		verificaComando(comando);
+		this.token = comando.split(" ");
 		
 		//Verifica a funcao
-		switch (this.tokens[0]) {
-		
+		switch (this.token[0]) {
+			
 		case "ping":
 			
-			System.out.println("ping");
+			verificaIp(token[1]);
+			
+			
 			break;
 		
 		default:
@@ -33,24 +31,18 @@ public class Parse {
 		
 	}
 	
-	private void separaToken(String comando){
-		
-		this.tokens = comando.split(" ");
-		
-	}
 	
-	private boolean verificaComando(String comando) throws ComandoInvalidoException{
+	private boolean verificaIp(String ip) throws EnderecoIPMalFormadoException{
 		
-		Pattern pattern = Pattern.compile(COMANDOVALIDO);
-        Matcher matcher = pattern.matcher(comando);
+		Pattern pattern = Pattern.compile("\\d{1,3}[.]\\d{1,3}[.]\\d{1,3}[.]\\d{1,3}");
+        Matcher matcher = pattern.matcher(ip);
         
-        //Verifica se o comando e valido. Caso sim, separa tokens e retorna true.
+        //Verifica se o ip e valido. Caso sim, retorna true.
         //Caso nao, levanta exception
         if( matcher.matches() ){
-        	separaToken(comando);
         	return true;
         }else{
-            throw new ComandoInvalidoException("Comando inválido!");
+            throw new EnderecoIPMalFormadoException("IP inválido");
         }
 		
 	}
