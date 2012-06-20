@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 
@@ -54,8 +57,11 @@ public class RemoteApiServlet extends HttpServlet implements Servlet {
         res.setHeader("Cache-Control", "no-store, no-cache");
         String city = "";
         
-        String method = req.getParameter("method");
-        String parameter = req.getParameter("parameter"); //Erro ao ler o parametro <Parameter> 
+        //String method = req.getParameter("method");
+        //String parameter = req.getParameter("parameter"); //Erro ao ler o parametro <Parameter>
+        //Gson gs = new Gson();
+        //gs.fromJson(req.getParameter("parameter"), typeOfT)
+        JsonElement jsObj = new JsonParser().parse((String)req.getParameter("parameter"));
         
 //        if(req.getParameter("city") != null) { 
 //        	city = req.getParameter("city").trim();    
@@ -65,7 +71,7 @@ public class RemoteApiServlet extends HttpServlet implements Servlet {
 //        	res.getWriter().write("{\"result\" : \"OK\", \"state\" : \"" + state + "\"}");
 //        }
 //        else {
-//        	res.getWriter().write("{\"result\" : \"ERROR\", \"state\" : \"State not found for city\"}");    
+        res.getWriter().write("{\"result\" : \"OK\", \"state\" : \"Oieeeeeeeeee\"}");    
 //        }
     }
     

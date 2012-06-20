@@ -24,19 +24,22 @@
 </script>
 </HEAD>
 <BODY>
-<form name="ajxfrm">
-    <table>
-        <!-- city  -->
-        <tr>
-            <td>City</td><td><input type="text" name="city" value=""/></td>
-        </tr>
-        
-        <!--  state -->
-        <tr>
-            <td>State</td><td><input type="text" name="state" value="" onfocus="populateState(ajxfrm.city.value);"/></td>
-        </tr>
-    </table>
+	<form name="ajxfrm">
+		<table>
+			<!-- city  -->
+			<tr>
+				<td>City</td>
+				<td><input type="text" name="city" value="" /></td>
+			</tr>
 
-</form>
+			<!--  state -->
+			<tr>
+				<td>State</td>
+				<td><input type="text" name="state" value=""
+					onfocus="populateState(ajxfrm.city.value);" /></td>
+			</tr>
+		</table>
+
+	</form>
 </BODY>
 </HTML>

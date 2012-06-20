@@ -1,49 +1,39 @@
-
-#div_devices{
-
+#div_devices {
 	margin-top: 50px;
 }
 
-#div_devices img{
-
+#div_devices img {
 	width: 60px;
 	height: 60px;
 }
 
-#droppable img{
+#droppable img {
 	width: 60px;
 	height: 60px;
 }
 
-#devices_list{
-
+#devices_list {
 	list-style: none;
 }
 
-#devices_list li{
-
+#devices_list li {
 	display: inline;
-
 }
 
-#droppable{
-
+#droppable {
 	height: 320px;
 }
 
-#terminal{
-
+#terminal {
 	padding: 0px;
 	background: black;
 	width: 1015px;
 	height: 110px;
 	clear: right;
 	float: left;
-
 }
 
-#text_terminal{
-
+#text_terminal {
 	margin: 0px 0px 0px 0px;
 	width: 1005px;
 	height: 100px;
@@ -51,31 +41,42 @@
 	background: black;
 }
 
-#switch_table{
-
+#switch_table {
 	display: none;
 }
 
-#router_table{
-	
+#router_table {
 	display: none;
 }
 
-.switch{
+.switch {
 	border: 3px solid black;
 }
 
-.hub,.computer{
+.hub {
+	border: 3px solid green;
+}
+
+.computer {
 	border: 3px solid blue;
 }
-.router{
+
+.router {
 	border: 3px solid pink;
 }
 
-#trash{
-	margin-left: 670px;
+#trash {
+	margin-left: 390px;
 }
 
-.settings{
+.settings {
 	float: right;
+}
+
+.draggable {
+	cursor: move;
+}
+
+.focused {
+	border: 8px solid yellow;
 }
