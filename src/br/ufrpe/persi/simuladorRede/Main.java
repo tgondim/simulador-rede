@@ -1,8 +1,24 @@
 package br.ufrpe.persi.simuladorRede;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.json.JSONObject;
+
 public class Main {
 
 	public static void main(String[] args) throws EnderecoIPMalFormadoException {
+		
+		Map<String, Object> map = new HashMap<String, Object>();  
+		map.put( "name", "json" );  
+		map.put( "bool", Boolean.TRUE );  
+		map.put( "int", new Integer(1) );  
+		map.put( "arr", new String[]{"a","b"} );  
+		map.put( "func", "function(i){ return this.arr[i]; }" );  
+		  
+		//JSONObject jsonObject = JSONObject.fromObject( map );  
+		//System.out.println( jsonObject );
+		//JSONObject json = JSONObject.fromObject(map);
 		
 		Host host1 = new Host(1);
 		ConfiguracaoRede configuracaoHost1 = new ConfiguracaoRede();
