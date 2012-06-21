@@ -16,34 +16,40 @@ public class Parse {
 		this.token = comando.split(" ");
 		
 		//Verifica a funcao
-		switch (this.token[0]) {
-			
-		case "ping":
+		if(this.token[0].equals("ping")){
 			
 			verificaIp(token[1]);
 			
-			
-			break;
-		
-		default:
+		}else{
 			throw new ComandoInvalidoException("Funcão não encontrada.");
 		}
 		
 	}
 	
 	
-	private boolean verificaIp(String ip) throws EnderecoIPMalFormadoException{
+	private void verificaIp(String ip) throws EnderecoIPMalFormadoException{
 		
 		Pattern pattern = Pattern.compile("\\d{1,3}[.]\\d{1,3}[.]\\d{1,3}[.]\\d{1,3}");
         Matcher matcher = pattern.matcher(ip);
         
         //Verifica se o ip e valido. Caso sim, retorna true.
         //Caso nao, levanta exception
-        if( matcher.matches() ){
-        	return true;
-        }else{
-            throw new EnderecoIPMalFormadoException("IP inválido");
+        if( !matcher.matches() ){
+        	throw new EnderecoIPMalFormadoException("IP inválido");
         }
+        
+        
+        String [] token = ip.split(".");
+        
+        
+        for (int i = 0; i < token.length; i++) {
+        	
+        	int num = Integer.parseInt(token[i]);
+			//Verifica se o token local é maior que 2 ou menor que 0.
+        	if(num > 254 || num < 0){
+        		 throw new EnderecoIPMalFormadoException("IP inválido");
+			}
+		}
 		
 	}
 	

@@ -31,7 +31,7 @@ public class FachadaImplements implements Fachada {
 	}
 
 	@Override
-	public void ping(String idOrigem, String ipDestino) {
+	public void ping(String idOrigem, String comando) {
 		// TODO Auto-generated method stub
 
 	}
