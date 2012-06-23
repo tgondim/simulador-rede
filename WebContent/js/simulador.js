@@ -65,39 +65,13 @@ $(document).ready(function() {
 
 	$(function() {
 
-		$(".draggable").draggable({
+		$(".draggable").draggable({			
 			helper : 'clone',
 			cursor : 'move',
 			tolerance : 'fit'
 		});
 	});
 
-	$(function() {
-
-		$('#droppable').on('click', '.hub', function() {
-			ativarAbaHub();
-			deviceFocused(this);
-			showConfigDevice();
-		});
-		
-		$('#droppable').on('click', '.computer', function() {
-			ativarAbaComputer();
-			deviceFocused(this);
-			showConfigDevice();
-		});
-		
-		$('#droppable').on('click', '.router', function() {
-			ativarAbaRouter();
-			deviceFocused(this);
-			showConfigDevice();
-		});
-		
-		$('#droppable').on('click', '.switch', function() {
-			ativarAbaSwitch();
-			deviceFocused(this);
-			showConfigDevice();
-		});
-	});
 
 	$("#droppable").droppable({
 		accept : ".draggable",
@@ -127,6 +101,7 @@ $(document).ready(function() {
 				x.appendTo('#droppable');
 				//x.appendTo(".draggable");
 
+				//alert(x);
 			}
 
 		}
@@ -177,227 +152,9 @@ $(document).ready(function() {
 		return a;
 	}
 
-	$(function() {
-		network = document.network = {};
-		nk = network.networks = {};
-		nk.network1 = {};
-	});
 
 });
 
-function ativarAbaComputer() {
-
-	$("#endereco_ip").fadeIn('slow', function() {
-	});
-	$("#gateway_padrao").fadeIn('slow', function() {
-	});
-	$("#mascara_sub_rede").fadeIn('slow', function() {
-	});
-	removeClasseTodasAbas();
-	$("#tab_computer").addClass("active");
-	$("#switch_table").fadeOut('fast', function() {
-	});
-	$("#router_table").fadeOut('slow', function() {
-	});
-}
-
-function ativarAbaSwitch(){
-	$("#endereco_ip").fadeOut('slow', function() {
-	});
-	$("#gateway_padrao").fadeOut('slow', function() {
-	});
-	$("#mascara_sub_rede").fadeOut('slow', function() {
-	});
-	removeClasseTodasAbas();
-	$("#tab_switch").addClass("active");
-	$("#switch_table").fadeOut('fast', function() {
-	});
-//	$("#router_table").fadeIn('slow', function() {
-//	});
-}
-
-function ativarAbaHub(){
-	$("#endereco_ip").fadeOut('slow', function() {
-	});
-	$("#gateway_padrao").fadeOut('slow', function() {
-	});
-	$("#mascara_sub_rede").fadeOut('slow', function() {
-	});
-	removeClasseTodasAbas();
-	$("#tab_hub").addClass("active");
-	$("#switch_table").fadeOut('fast', function() {
-	});
-	//$("#router_table").fadeOut('slow', function() {
-	//});
-}
-
-function ativarAbaRouter(){
-	$("#endereco_ip").fadeIn('slow', function() {
-	});
-	$("#gateway_padrao").fadeIn('slow', function() {
-	});
-	$("#mascara_sub_rede").fadeIn('slow', function() {
-	});
-	removeClasseTodasAbas();
-	$("#tab_router").addClass("active");
-	$("#switch_table").fadeOut('fast', function() {
-	});
-	$("#router_table").fadeIn('slow', function() {
-	});
-}
-
-function removeClasseTodasAbas(){
-	$("#tab_computer").removeClass("active");
-	$("#tab_switch").removeClass("active");
-	$("#tab_hub").removeClass("active");
-	$("#tab_router").removeClass("active");
-	
-}
-
-function deviceFocused(currentDevice){
-	var devices = $("#droppable > .router, .hub, .switch, .computer");
-	for (var i=0; i < devices.length; i++) {
-	  	$(devices[i]).removeClass("focused");
-	};
-	if(currentDevice != null){
-		$(currentDevice).addClass("focused");
-	}
-}
-
-function saveConfigDevice(){
-	f = $(".focused");
-	if(f.length > 0){
-		ip = $("#endereco_ip").val();
-		mask = $("#mascara_sub_rede").val();
-		gateway = $("#gateway_padrao").val();
-		nome_lan = $("#nome_lan").val();
-		//if(f.config == null)
-		//	f.config = {};
-		//f.data(nome_lan, {"ip": ip, "mask":mask, "gateway": gateway});
-		tmpData = f.data();
-		if(tmpData.config == undefined)
-			tmpData.config = {};
-		tmpData.config[nome_lan] = {"ip": ip, "mask":mask, "gateway": gateway}; 
-		f.data("config", tmpData.config);
-		ip = $("#endereco_ip").val('');
-		mask = $("#mascara_sub_rede").val('');
-		gateway = $("#gateway_padrao").val('');
-	}
-}
-
-function showConfigDevice(){
-	f = $(".focused");
-	if(f.length > 0){
-		tmpData = f.data("config");
-		//alert($.toJSON(tmpData));
-	}
-}
-
-function callServer(parameter) {
-	var parameters = {
-		//"device_type" : typeDevice,
-		"parameter" : parameter
-	};
-
-	$.ajax({
-		url : "RemoteApiServlet",
-		type : "POST",
-		async : "true",
-		dataType : "json",
-		data : parameters,
-		success : handlerSucesseCallServer,
-		error : handlerErrorCallServer,
-	});
-}
-
-function handlerSucesseCallServer(data) {
-
-}
-
-function handlerErrorCallServer(jqXHR, textStatus, errorThrown) {
-
-};
 
 
-function testServer() {
-	var parameter = {
-		"rede" : {
-			"rede1" : {
-				"switch" : {
-					"switch1" : ["pc1", "pc2"]
-				},
-				"pc" : {
-					"pc1" : {
-						"ip" : "10.0.0.100",
-						"mac" : "",
-						"mask" : "255.255.255.0",
-						"interface" : {
-							1 : ["switch1"]
-						},
-					},
-					"pc2" : {
-						"ip" : "10.0.0.101",
-						"mac" : "",
-						"mask" : "255.255.255.0",
-						"interface" : {
-							1 : ["switch1"]
-						},
-					}
-				},
-			}
-		}
-	};
-	callServer("configNetwork", parameter);
-};
 
-function buildNetworks() {
-	//network = document.network = {};
-	var network = {};
-	//nk = network.networks = {};
-	//nk.network1 = {};
-	var devices = $("#droppable > .router, .hub, switch, .computer");
-	var routers_ = $("#droppable > .router");
-	var hubs_ = $("#droppable > .hub");
-	var switchs_ = $("#droppable > .switch");
-	var pcs_ = $("#droppable > .computer");
-	
-	var tmpPcs = {}; 
-	for(var i=0,j=pcs_.length; i<j; i++){
-	  	tmpPcs[i] = $(pcs_[i]).data("config");
-	};
-	var tmpRoutes = {};
-	for(var i=0,j=routers_.length; i<j; i++){
-	  	tmpRoutes[i] = $(routers_[i]).data("config");
-	};
-	
-	var tmpSwitch = {};
-	for(var i=0,j=switchs_.length; i<j; i++){
-	  	tmpSwitch[i] = $(switchs_[i]).data("config");
-	};
-	
-	var tmpHub = {};
-	for(var i=0,j=hubs_.length; i<j; i++){
-	  	tmpHub[i] = $(hubs_[i]).data("config");
-	};
-	// for(var i=0,j=routers.length; i<j; i++){
-	  // //routers[i]
-	// };
-	network["pc"] = tmpPcs;
-	network["router"] = tmpRoutes;
-	network["switch"] = tmpSwitch;
-	network["hub"] = tmpHub;
-	
-	//TODO: 1: Procurar pelos componentes...
-	//   	2: Identificar configura��es diferentes
-	//		3: criar uma estrutura de rede para cada uma rede encontrada.
-	tmpRetorno = $.toJSON(network);
-	alert(tmpRetorno);
-	return tmpRetorno;
-	
-	
-};
-
-function sendDataToServer(){
-	data = buildNetworks();
-	callServer(data);
-} 

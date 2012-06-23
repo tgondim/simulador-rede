@@ -23,6 +23,9 @@
 <script src="js/simulador.js" type="text/javascript"></script>
 <script src="js/bootstrap.min.js" type="text/javascript"></script>
 <script src="js/mask.js" type="text/javascript"></script>
+<script src="js/new.js" type="text/javascript"></script>
+<script src="js/ping.js" type="text/javascript"></script>
+<script src="js/delete.js" type="text/javascript"></script>
 
 <link type="text/css"
 	href="css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
@@ -62,13 +65,13 @@
 			<div class="span8 well">
 
 				<img class="draggable ui-draggable computer" class="ui-draggable" alt="Computer" title="Computer" src="img/computer.png" 
-					data-ip="" data-gateway="" data-mask="" data-id="" data-network="" data-mac=""/> 
+					data-ip="" data-gateway="" data-mask="" data-id="" data-network="" data-mac="" data-tipo="computer"/> 
 				<img class="draggable ui-draggable router" class="ui-draggable" alt="Router" title="Router" src="img/router.png"
-				data-ip="" data-gateway="" data-id="" data-network="" data-mac=""/> 
+				data-ip="" data-gateway="" data-id="" data-network="" data-mac="" data-tipo="router"/> 
 				<img class="draggable ui-draggable switch" class="ui-draggable" alt="Switch" title="Switch" src="img/switch.png" 
-				data-id="" data-network="" data-mac=""/> 
+				data-id="" data-network="" data-mac="" data-tipo="switch"/> 
 				<img class="draggable ui-draggable hub" class="ui-draggable" alt="Hub" title="Hub" src="img/hub.png"
-				data-id="" data-network="" data-mac="" /> 
+				data-id="" data-network="" data-mac="" data-tipo="hub" /> 
 				<img id="trash" alt="Trash" title="Hub" src="img/lixeira.jpg"/>
 
 			</div>
@@ -220,7 +223,7 @@
 
 				<textarea id="text_terminal" type="text"
 					placeholder="Enter your command"></textarea><br/><br/>
-					<button type="submit" class="btn btn-info">Send</button>
+					<button id="enviar_ping" type="submit" class="btn btn-info">Send</button>
 			</div>
 
 		</div>
