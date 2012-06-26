@@ -2,23 +2,21 @@ $(document).ready(function(){
 
 	$("#enviar_ping").click(function(){	
 		
-		$(".draggable").live('click',function(){
 
-			if($(this).attr("data-id").val() != ""){
+			if($(this).attr("data-id") != ""){
 				
 				$.ajax({
 					type: 'POST',
-					url: '/ping',
+					url: 'SessionManagerServlet',
 					data: {
-							"id" : $(this).attr('data-id'),
-							"tipo" : $("#text_terminal").val() 
-						  },
-					dataTypeString: 'string'
+							"operacao" : "criarNovaRede"
+								},
+					dataType: 'json'
 
 				}).done(function(resposta){
-					
+					alert('result=' + resposta.result + ' id=' + resposta.id);
 				});	
 			}
-		});
+	
 	});
 });
