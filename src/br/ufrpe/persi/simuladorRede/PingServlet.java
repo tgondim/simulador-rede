@@ -40,6 +40,7 @@ public class PingServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Cache-Control", "no-store, no-cache");
+		//aqui seria feito o tratameto da requisiçao e retornaria o json conforme o resultado
 		response.getWriter().write("{\"result\" : \"OK\", \"retorno\" : \"Aqui teria a mensagem de ping\"}");
 	}
 
