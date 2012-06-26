@@ -1,10 +1,11 @@
-package br.ufrpe.persi.simuladorRede;
+package br.ufrpe.persi.simuladorRede.modelo;
 import java.util.ArrayList;
+
 
 public class Hub extends Dispositivo {
 	
-	public Hub(int newNumeroDeInterfaces) {
-		super();
+	public Hub(String newId, int newNumeroDeInterfaces) {
+		super(newId);
 		this.dispositivosConectados = new ArrayList<Dispositivo>();
 		this.numeroDeInterfaces = newNumeroDeInterfaces;
 	}

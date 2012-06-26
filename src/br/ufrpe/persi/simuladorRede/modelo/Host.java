@@ -1,12 +1,13 @@
-package br.ufrpe.persi.simuladorRede;
+package br.ufrpe.persi.simuladorRede.modelo;
 import java.util.ArrayList;
+
 
 public class Host extends Dispositivo {
 	
 	private Pacote pacote;
 	
-	public Host(int newNumeroDeInterfaces) {
-		super();
+	public Host(String newId, int newNumeroDeInterfaces) {
+		super(newId);
 		this.dispositivosConectados = new ArrayList<Dispositivo>();
 		this.numeroDeInterfaces = newNumeroDeInterfaces;
 	}

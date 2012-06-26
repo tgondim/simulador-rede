@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.ufrpe.persi.simuladorRede.modelo.ConfiguracaoRede;
+import br.ufrpe.persi.simuladorRede.modelo.EnderecoIP;
+import br.ufrpe.persi.simuladorRede.modelo.Host;
+import br.ufrpe.persi.simuladorRede.modelo.Router;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -123,7 +128,7 @@ public class RemoteApiServlet extends HttpServlet implements Servlet {
 			JsonObject pcJsObj = (JsonObject) lanJsObj.get("Lan1");
 			String ip = pcJsObj.get("ip").getAsString();
 			String mask = pcJsObj.get("mask").getAsString();
-			Host host1 = new Host(1);
+			Host host1 = new Host("host1", 1);
 			ConfiguracaoRede configuracaoHost1 = new ConfiguracaoRede();
 			configuracaoHost1.setIp(new EnderecoIP(ip));
 			configuracaoHost1.setMascara(new EnderecoIP(mask));
@@ -152,7 +157,7 @@ public class RemoteApiServlet extends HttpServlet implements Servlet {
 				String ip = pcJsObj.get("ip").getAsString();
 				String mask = pcJsObj.get("mask").getAsString();
 				
-				Router router1 = new Router(32);
+				Router router1 = new Router("router1", 32);
 				ConfiguracaoRede configuracaoRouter = new ConfiguracaoRede();
 				configuracaoRouter.setIp(new EnderecoIP(ip));
 				configuracaoRouter.setMascara(new EnderecoIP(mask));

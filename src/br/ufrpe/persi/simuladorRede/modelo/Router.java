@@ -1,14 +1,15 @@
-package br.ufrpe.persi.simuladorRede;
+package br.ufrpe.persi.simuladorRede.modelo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class Router extends Dispositivo {
 	
 	private Map<EnderecoIP, Dispositivo> tabelaRoteamento;
 	
-	public Router(int newNumeroDeInterfaces) {
-		super();
+	public Router(String newId, int newNumeroDeInterfaces) {
+		super(newId);
 		this.dispositivosConectados = new ArrayList<Dispositivo>();
 		this.tabelaRoteamento = new HashMap<EnderecoIP, Dispositivo>();
 		this.numeroDeInterfaces = newNumeroDeInterfaces;

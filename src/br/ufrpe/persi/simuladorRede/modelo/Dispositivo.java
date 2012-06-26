@@ -1,8 +1,11 @@
-package br.ufrpe.persi.simuladorRede;
+package br.ufrpe.persi.simuladorRede.modelo;
 import java.util.List;
+
+import br.ufrpe.persi.simuladorRede.ImpossivelConectarDispositivoExeption;
 
 public abstract class Dispositivo {
 
+	protected String id;
 	protected ConfiguracaoRede configuracao;
 	protected List<Dispositivo> dispositivosConectados;
 	protected int numeroDeInterfaces;
@@ -16,6 +19,10 @@ public abstract class Dispositivo {
 		} else {
 			throw new ImpossivelConectarDispositivoExeption("Não há interface de rede disponível.");
 		}
+	}
+	
+	public Dispositivo(String newId) {
+		this.id = newId;
 	}
 	
 	public boolean desconectarDispositivo(Dispositivo dispositivo) {
@@ -45,7 +52,7 @@ public abstract class Dispositivo {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Dispositivo) {
-			return this.getConfiguracao().equals(((Dispositivo)obj).getConfiguracao());		
+			return this.id.equals(((Dispositivo)obj).id);		
 		}
 		return false;
 	}	

@@ -1,4 +1,5 @@
-package br.ufrpe.persi.simuladorRede;
+package br.ufrpe.persi.simuladorRede.modelo;
+
 
 public class ConfiguracaoRede {
 	

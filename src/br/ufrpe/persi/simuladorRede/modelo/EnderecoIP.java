@@ -1,6 +1,8 @@
-package br.ufrpe.persi.simuladorRede;
+package br.ufrpe.persi.simuladorRede.modelo;
 
 import java.util.StringTokenizer;
+
+import br.ufrpe.persi.simuladorRede.EnderecoIPMalFormadoException;
 
 public class EnderecoIP {
 
