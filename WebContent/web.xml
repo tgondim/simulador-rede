@@ -12,5 +12,15 @@
 		<servlet-name>RemoteApiServlet</servlet-name>
 		<url-pattern>/RemoteApiServlet</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>PingServlet</display-name>
+		<servlet-name>PingServlet</servlet-name>
+		<servlet-class>br.ufrpe.persi.simuladorRede.PingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PingServlet</servlet-name>
+		<url-pattern>/PingServlet</url-pattern>
+	</servlet-mapping>
 
 </web-app>
