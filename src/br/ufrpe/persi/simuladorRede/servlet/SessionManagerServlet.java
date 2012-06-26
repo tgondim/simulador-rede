@@ -88,6 +88,16 @@ public class SessionManagerServlet extends HttpServlet {
 		} else if (operacao.toLowerCase().equals("getconsole")) {
 			String console = SessionManager.getInstance().getConsole();
 			response.getWriter().write("{\"result\" : \"OK\", \"id\" : \""  + console + "\"}");
+		} else if (operacao.toLowerCase().equals("adicionarrota")) {
+			try {
+				retorno = SessionManager.getInstance().adicionarRota((String)request.getParameter("idRede"), 
+						(String)request.getParameter("nomeDispositivo"), 
+						(String)request.getParameter("nomeRede"),
+						(String)request.getParameter("idDispositivo"));
+				response.getWriter().write("{\"result\" : \"OK\", \"retorno\" : \""  + retorno + "\"}");
+			} catch (Exception e) {
+				response.getWriter().write("{\"result\" : \"ERRO\", \"retorno\" : \""  + e.getMessage() + "\"}");
+			}
 		}
 	}
 
