@@ -14,7 +14,7 @@ public class Switch extends Dispositivo {
 	public void processarPacote(Pacote pacote) {
 		for(int i = 0 ; i < dispositivosConectados.size() ; i++){
 			//Dispositivos na mesma rede
-			if(dispositivosConectados.get(i).getConfiguracao().getIp().equals(pacote.getDestino())){
+			if (dispositivosConectados.get(i).getConfiguracao().getIp().equals(pacote.getDestino())) {
 				dispositivosConectados.get(i).processarPacote(pacote);
 				return;
 			}

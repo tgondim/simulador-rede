@@ -17,6 +17,7 @@ public class Host extends Dispositivo {
 		//Verifica se o dispositivo enviou para ele mesmo
 		if(pacote.getDestino().equals(this.getConfiguracao().getIp())){
 			this.setPacote(pacote);
+			pacote.setEntregue(true);
 			pacote.notificarOnPacoteRecebidoListeners();
 		}
 	}
@@ -28,12 +29,12 @@ public class Host extends Dispositivo {
 		for (int i = 0; i < this.dispositivosConectados.size(); i++) {
 			if((disp = this.dispositivosConectados.get(i)) != null){
 //				if (disp.getConfiguracao().getIp().equals(pacote.getDestino())) {
-					disp.processarPacote(pacote);				
+					disp.processarPacote(pacote);
 //					return;
 //				}
 			}		
 		}
-		if (this.getConfiguracao().getGateway() != null) {
+		if ((!pacote.isEntregue()) && (this.getConfiguracao().getGateway() != null)) {
 			this.getConfiguracao().getGateway().processarPacote(pacote);
 		}
 		return;

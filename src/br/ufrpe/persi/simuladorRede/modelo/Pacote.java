@@ -12,12 +12,14 @@ public class Pacote implements OnPacoteRecebidoObserver {
 	private EnderecoIP origem;
 	private EnderecoIP destino;
 	private String conteudo;
+	private boolean entregue;
 	private List<OnPacoteRecebidoListener> onPacoteRecebidoListeners;
 	
 	public Pacote(String conteudo) {
 		super();
 		this.onPacoteRecebidoListeners = new ArrayList<OnPacoteRecebidoListener>();
 		this.conteudo = conteudo;
+		this.entregue = false;
 	}
 	
 	public Pacote(String conteudo, EnderecoIP newDestino) {
@@ -39,8 +41,8 @@ public class Pacote implements OnPacoteRecebidoObserver {
 	}
 	
 	@Override
-	public void notificarOnPacoteRecebidoListeners() {
-		for (OnPacoteRecebidoListener oprl : this.onPacoteRecebidoListeners) {
+	public void notificarOnPacoteRecebidoListeners() {		
+		for (OnPacoteRecebidoListener oprl : this.onPacoteRecebidoListeners) {			
 			oprl.onPacoteRecebido(this);
 		}
 	}
@@ -67,5 +69,13 @@ public class Pacote implements OnPacoteRecebidoObserver {
 
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
+	}
+
+	public boolean isEntregue() {
+		return entregue;
+	}
+
+	public void setEntregue(boolean entregue) {
+		this.entregue = entregue;
 	}
 }

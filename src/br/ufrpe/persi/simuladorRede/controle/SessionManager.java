@@ -125,6 +125,24 @@ public class SessionManager implements OnPacoteRecebidoListener {
 		return retorno;
 	}
 	
+	public String adicionarRota(String idRede, String nomeDispositivo, String nomeRede, String idDispositivo) throws DispositivoNaoEncontradoException, EnderecoIPMalFormadoException {
+		String retorno = "";
+
+		Dispositivo router = this.sessoes.get(idRede).getDispositivos().get(nomeDispositivo);
+		if ((router == null) || (!(router instanceof Router))) {
+			throw new DispositivoNaoEncontradoException("Não foi possível encontrar o router de id " + nomeDispositivo + ".");
+		}
+		
+		Dispositivo dispositivo = this.sessoes.get(idRede).getDispositivos().get(idDispositivo);
+		if (dispositivo == null) {
+			throw new DispositivoNaoEncontradoException("Não foi possível encontrar o dispositivo de id " + idDispositivo + ".");
+		}
+
+		((Router)router).adicionarRota(new EnderecoIP(nomeRede), dispositivo);
+		retorno = "A rota da rede=" + nomeRede + " foi para o dispositivo=" + idDispositivo + " foi adicinada com sucesso.";
+		return retorno;
+	}
+	
 	public String conectarDispositivos(String idRede, String nomeDispositivo1, String nomeDispositivo2) throws ImpossivelConectarDispositivoExeption {
 		String retorno = "";
 		Dispositivo dispositivo1 = this.sessoes.get(idRede).getDispositivos().get(nomeDispositivo1);
@@ -157,6 +175,10 @@ public class SessionManager implements OnPacoteRecebidoListener {
 		try {
 			Pacote pacote = new Pacote(conteudo, dispOrigem.getConfiguracao().getIp(), new EnderecoIP(ipDestino));
 			pacote.addOnPacoteRecebidoListener(this);
+			if (!(dispOrigem instanceof Host)) {
+				throw new DispositivoNaoEncontradoException("Não foi possível encontrar o Host de id " + nomeOrigem + ".");
+			}
+			((Host)dispOrigem).enviarPacote(pacote);
 		} catch (EnderecoIPMalFormadoException e) {
 			throw new DestinoInvalidoException("O destino " + ipDestino + " e invalido.");
 		}
@@ -185,7 +207,7 @@ public class SessionManager implements OnPacoteRecebidoListener {
 
 	@Override
 	public void onPacoteRecebido(Pacote pacote) {
-		this.console.append("Pacote origem=" + pacote.getOrigem() + " destino=" + pacote.getDestino() + " entregue com sucesso.\n");
+		this.console.append("PING - Pacote origem=" + pacote.getOrigem() + " destino=" + pacote.getDestino() + " entregue com sucesso.\n");
 	}
 	
 	class SessionCollectorTimerTask extends TimerTask {
