@@ -6,8 +6,6 @@ public class ConfiguracaoRede {
 	private EnderecoIP ip;
 	private EnderecoIP mascara;
 	private Dispositivo gateway;
-//	private Dispositivo dns1;
-//	private Dispositivo dns2;
 	
 	public ConfiguracaoRede(EnderecoIP ip, EnderecoIP mascara, Dispositivo gateway,
 			Dispositivo dns1, Dispositivo dns2) {
@@ -15,8 +13,6 @@ public class ConfiguracaoRede {
 		this.ip = ip;
 		this.mascara = mascara;
 		this.gateway = gateway;
-//		this.dns1 = dns1;
-//		this.dns2 = dns2;
 	}
 	
 	public ConfiguracaoRede() {
@@ -62,22 +58,6 @@ public class ConfiguracaoRede {
 	public void setGateway(Dispositivo gateway) {
 		this.gateway = gateway;
 	}
-
-//	public Dispositivo getDns1() {
-//		return dns1;
-//	}
-//
-//	public void setDns1(Dispositivo dns1) {
-//		this.dns1 = dns1;
-//	}
-//
-//	public Dispositivo getDns2() {
-//		return dns2;
-//	}
-//
-//	public void setDns2(Dispositivo dns2) {
-//		this.dns2 = dns2;
-//	}
 
 	@Override
 	public boolean equals(Object obj) {

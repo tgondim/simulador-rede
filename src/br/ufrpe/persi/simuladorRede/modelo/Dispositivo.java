@@ -1,7 +1,8 @@
 package br.ufrpe.persi.simuladorRede.modelo;
 import java.util.List;
 
-import br.ufrpe.persi.simuladorRede.ImpossivelConectarDispositivoExeption;
+import br.ufrpe.persi.simuladorRede.modelo.exception.ImpossivelCriarDispositivoExeption;
+
 
 public abstract class Dispositivo {
 
@@ -13,11 +14,11 @@ public abstract class Dispositivo {
 	
 	public abstract void processarPacote(Pacote pacote);
 
-	public void conectarDispositivo(Dispositivo dispositivo) throws ImpossivelConectarDispositivoExeption {
+	public void conectarDispositivo(Dispositivo dispositivo) throws ImpossivelCriarDispositivoExeption {
 		if (this.dispositivosConectados.size() < this.getNumeroDeInterfaces()) {
 			this.dispositivosConectados.add(dispositivo);
 		} else {
-			throw new ImpossivelConectarDispositivoExeption("Não há interface de rede disponível.");
+			throw new ImpossivelCriarDispositivoExeption("Não há interface de rede disponível.");
 		}
 	}
 	
@@ -25,6 +26,26 @@ public abstract class Dispositivo {
 		this.id = newId;
 	}
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<Dispositivo> getDispositivosConectados() {
+		return dispositivosConectados;
+	}
+
+	public void setDispositivosConectados(List<Dispositivo> dispositivosConectados) {
+		this.dispositivosConectados = dispositivosConectados;
+	}
+
+	public void setNumeroDeInterfaces(int numeroDeInterfaces) {
+		this.numeroDeInterfaces = numeroDeInterfaces;
+	}
+
 	public boolean desconectarDispositivo(Dispositivo dispositivo) {
 		return this.dispositivosConectados.remove(dispositivo);
 	}
@@ -64,5 +85,10 @@ public abstract class Dispositivo {
 			hashCode += fragmentoIp;
 		}
 		return hashCode;
+	}
+	
+	@Override
+	public String toString() {
+		return this.id;
 	}
 }

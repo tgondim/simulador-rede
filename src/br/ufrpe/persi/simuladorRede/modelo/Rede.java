@@ -1,23 +1,31 @@
 package br.ufrpe.persi.simuladorRede.modelo;
 
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Rede {
 
 	private String id;
-	private ArrayList<Dispositivo> dispositivos;
+	private Map<String, Dispositivo> dispositivos;
+	private long horaDeCriacao;
 	
 	public Rede(String newId) {
 		this.id = newId;
-		this.dispositivos = new ArrayList<Dispositivo>();
+		this.dispositivos = new HashMap<String, Dispositivo>();
+		this.horaDeCriacao = new Date().getTime();
 	}
 	
 	public void addDispositivo(Dispositivo newDispositivo) {
-		this.dispositivos.add(newDispositivo);
+		this.dispositivos.put(newDispositivo.getId(), newDispositivo);
 	}
 	
 	public void removeDispositivo(Dispositivo newDispositivo) {
 		this.dispositivos.remove(newDispositivo);
+	}
+	
+	public Map<String, Dispositivo> getDispositivos() {
+		return this.dispositivos;
 	}
 	
 	public String getId() {
@@ -26,6 +34,10 @@ public class Rede {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public long getHoraDeCriacao() {
+		return this.horaDeCriacao;
 	}
 
 	@Override
@@ -39,7 +51,7 @@ public class Rede {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		for (Dispositivo disp : this.dispositivos) {
+		for (Dispositivo disp : this.dispositivos.values()) {
 			sb.append(disp.toString() + "\n");
 		}
 		return sb.toString();

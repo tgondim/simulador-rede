@@ -3,6 +3,9 @@ package br.ufrpe.persi.simuladorRede;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import br.ufrpe.persi.simuladorRede.modelo.exception.ComandoInvalidoException;
+import br.ufrpe.persi.simuladorRede.modelo.exception.EnderecoIPMalFormadoException;
+
 public class Parse {
 	
 	private String [] token;

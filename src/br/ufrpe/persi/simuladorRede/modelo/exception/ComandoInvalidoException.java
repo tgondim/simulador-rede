@@ -1,4 +1,4 @@
-package br.ufrpe.persi.simuladorRede;
+package br.ufrpe.persi.simuladorRede.modelo.exception;
 
 public class ComandoInvalidoException extends Exception {
 

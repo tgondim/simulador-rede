@@ -1,14 +1,22 @@
 package br.ufrpe.persi.simuladorRede.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class Pacote {
+import br.ufrpe.persi.simuladorRede.listeners.OnPacoteRecebidoListener;
+import br.ufrpe.persi.simuladorRede.listeners.OnPacoteRecebidoObserver;
+
+
+public class Pacote implements OnPacoteRecebidoObserver {
 	
 	private EnderecoIP origem;
 	private EnderecoIP destino;
 	private String conteudo;
+	private List<OnPacoteRecebidoListener> onPacoteRecebidoListeners;
 	
 	public Pacote(String conteudo) {
 		super();
+		this.onPacoteRecebidoListeners = new ArrayList<OnPacoteRecebidoListener>();
 		this.conteudo = conteudo;
 	}
 	
@@ -22,6 +30,21 @@ public class Pacote {
 		this.origem = newOrigem;
 	}
 
+	public void addOnPacoteRecebidoListener(OnPacoteRecebidoListener newOnPacoteRecebidoListener) {
+		this.onPacoteRecebidoListeners.add(newOnPacoteRecebidoListener);
+	}
+	
+	public void removeOnPacoteRecebidoListener(OnPacoteRecebidoListener newOnPacoteRecebidoListener) {
+		this.onPacoteRecebidoListeners.remove(newOnPacoteRecebidoListener);
+	}
+	
+	@Override
+	public void notificarOnPacoteRecebidoListeners() {
+		for (OnPacoteRecebidoListener oprl : this.onPacoteRecebidoListeners) {
+			oprl.onPacoteRecebido(this);
+		}
+	}
+	
 	public EnderecoIP getOrigem() {
 		return origem;
 	}

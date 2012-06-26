@@ -1,21 +1,41 @@
 package br.ufrpe.persi.simuladorRede.controle;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import br.ufrpe.persi.simuladorRede.controle.exception.DestinoInvalidoException;
+import br.ufrpe.persi.simuladorRede.controle.exception.DispositivoNaoEncontradoException;
+import br.ufrpe.persi.simuladorRede.listeners.OnPacoteRecebidoListener;
+import br.ufrpe.persi.simuladorRede.modelo.ConfiguracaoRede;
 import br.ufrpe.persi.simuladorRede.modelo.Dispositivo;
+import br.ufrpe.persi.simuladorRede.modelo.EnderecoIP;
 import br.ufrpe.persi.simuladorRede.modelo.Host;
 import br.ufrpe.persi.simuladorRede.modelo.Hub;
+import br.ufrpe.persi.simuladorRede.modelo.Pacote;
 import br.ufrpe.persi.simuladorRede.modelo.Rede;
 import br.ufrpe.persi.simuladorRede.modelo.Router;
 import br.ufrpe.persi.simuladorRede.modelo.Switch;
+import br.ufrpe.persi.simuladorRede.modelo.exception.EnderecoIPMalFormadoException;
+import br.ufrpe.persi.simuladorRede.modelo.exception.ImpossivelConectarDispositivoExeption;
+import br.ufrpe.persi.simuladorRede.modelo.exception.ImpossivelCriarDispositivoExeption;
 
-public class SessionManager {
+public class SessionManager implements OnPacoteRecebidoListener {
 
+	//tempo de vida da sessao em milissegundos
+	private static final long TEMPO_DE_VIDA_SESSAO = 300000; //5 min
+	
 	private static SessionManager instance;
 	
 	private Map<String, Rede> sessoes;
+	private StringBuffer console;
+	
+	private Timer sessionCollector;
 	
 	static {
 		SessionManager.instance = new SessionManager();
@@ -23,7 +43,10 @@ public class SessionManager {
 	
 	private SessionManager() {
 		super();
-		this.sessoes = new HashMap<String, Rede>();		
+		this.sessoes = new HashMap<String, Rede>();
+		this.console = new StringBuffer();
+		this.sessionCollector = new Timer();
+		this.sessionCollector.scheduleAtFixedRate(new SessionCollectorTimerTask(), SessionManager.TEMPO_DE_VIDA_SESSAO, SessionManager.TEMPO_DE_VIDA_SESSAO);
 	}
 	
 	public static SessionManager getInstance() {
@@ -33,15 +56,14 @@ public class SessionManager {
 	public String criarNovaRede() {
 		String newId = gerarId();
 		this.sessoes.put(newId, new Rede(newId));
+		this.console.append("Nova rede de id " + newId + " criada com sucesso.\n");
 		return newId;
 	}
 	
-	public Rede getRede(String id) {
-		return this.sessoes.get(id);
-	}
-	
-	public String criarDispositivo(String idRede, String nomeDispositivo, String tipoDispositivo, int numInterfaces) {
+	public String criarDispositivo(String idRede, String nomeDispositivo, String tipoDispositivo, int numInterfaces) throws ImpossivelCriarDispositivoExeption {
+		String retorno = "";
 		Dispositivo newDispositivo = null;
+		
 		if (tipoDispositivo.toLowerCase().equals("host")) {
 			newDispositivo = new Host(nomeDispositivo, numInterfaces);
 		}
@@ -57,21 +79,99 @@ public class SessionManager {
 		if (newDispositivo != null) {
 			this.sessoes.get(idRede).addDispositivo(newDispositivo);			
 		} else { 
-			//tratar aqui caso nao consiga criar o dispositivo
+			throw new ImpossivelCriarDispositivoExeption("Não foi possível criar o dispositivo " + nomeDispositivo + ".");
 		}
-		return "Objeto criado com sucesso";
+		
+		retorno =  "Dispositivo de id " + nomeDispositivo + " criado com sucesso.";
+		this.console.append(retorno + "\n");
+		
+		return retorno;
 	}
 	
-	public String alterarPropriedadeDispositivo(String idRede, String nomeDispositivo, String nome, String valor) {
-		//TODO implementar alterar propriedades
-		System.out.println("idRede=" + idRede + " nomeDispositivo=" + nomeDispositivo + " nome=" + nome + " valor=" + valor);
-		return "";
+	public String alterarPropriedadeDispositivo(String idRede, String nomeDispositivo, String nome, String valor) throws EnderecoIPMalFormadoException, ImpossivelConectarDispositivoExeption {
+		String retorno = "";
+		Dispositivo disp = this.sessoes.get(idRede).getDispositivos().get(nomeDispositivo);
+		
+		if (nome.toLowerCase().equals("id")) {
+			disp.setId(valor);
+		} else if (nome.toLowerCase().equals("numerodeinterfaces")) {
+			disp.setNumeroDeInterfaces(Integer.valueOf(valor));
+		} else if (nome.toLowerCase().equals("macaddress")) {
+			disp.setMacAddress(valor);
+		} else if (nome.toLowerCase().equals("ip")) {
+			if (disp.getConfiguracao() == null) {
+				disp.setConfiguracao(new ConfiguracaoRede());
+			}
+			disp.getConfiguracao().setIp(new EnderecoIP(valor));
+		} else if (nome.toLowerCase().equals("mascara")) {
+			if (disp.getConfiguracao() == null) {
+				disp.setConfiguracao(new ConfiguracaoRede());
+			}
+			disp.getConfiguracao().setMascara(new EnderecoIP(valor));
+		} else if (nome.toLowerCase().equals("gateway")) {
+			Dispositivo dispGateway = this.sessoes.get(idRede).getDispositivos().get(valor);
+			if (dispGateway != null) {
+				if (disp.getConfiguracao() == null) {
+					disp.setConfiguracao(new ConfiguracaoRede());
+				}
+				disp.getConfiguracao().setGateway(dispGateway);
+			} else {
+				throw new ImpossivelConectarDispositivoExeption("Não foi possível encontrar o dispositivo gateway de id " + valor + ".");
+			}
+		}
+		retorno = "Propriedade " + nome + " alterada com sucesso.";
+		this.console.append(retorno + "\n");
+		
+		return retorno;
 	}
 	
-	public String processarPacote(String idRede, String nomeOrigem, String ipDestino, String conteudo) {
-		//TODO implementar enviar pacote
-		System.out.println("idRede=" + idRede + " nomeOrigem=" + nomeOrigem + " ipDestino=" + ipDestino + " conteudo=" + conteudo);
-		return "";
+	public String conectarDispositivos(String idRede, String nomeDispositivo1, String nomeDispositivo2) throws ImpossivelConectarDispositivoExeption {
+		String retorno = "";
+		Dispositivo dispositivo1 = this.sessoes.get(idRede).getDispositivos().get(nomeDispositivo1);
+		Dispositivo dispositivo2 = this.sessoes.get(idRede).getDispositivos().get(nomeDispositivo2);
+		
+		if ((dispositivo1 != null) && (dispositivo2 != null)) {
+			try {
+				dispositivo1.conectarDispositivo(dispositivo2);
+				dispositivo2.conectarDispositivo(dispositivo1);
+			} catch (ImpossivelCriarDispositivoExeption e) {
+				throw new ImpossivelConectarDispositivoExeption("Não foi possível conectar os dispositivos de id " + nomeDispositivo1 +  " e " + nomeDispositivo2 + ".");
+			}
+		} else {
+			throw new ImpossivelConectarDispositivoExeption("Não foi possível conectar os dispositivos de id " + nomeDispositivo1 +  " e " + nomeDispositivo2 + ".");
+		}
+		retorno = "Dispositivos " + nomeDispositivo1 + " e " + nomeDispositivo2 + " conectados com sucesso.";
+		this.console.append(retorno + "\n");
+		
+		return retorno;
+	}
+	
+	public String processarPacote(String idRede, String nomeOrigem, String ipDestino, String conteudo) throws DispositivoNaoEncontradoException, DestinoInvalidoException {
+		String retorno = "";
+		Dispositivo dispOrigem = this.sessoes.get(idRede).getDispositivos().get(nomeOrigem);
+
+		if (dispOrigem == null) {
+			throw new DispositivoNaoEncontradoException("Não foi possível encontrar o dispositivo de id " + nomeOrigem + ".");
+		}
+		
+		try {
+			Pacote pacote = new Pacote(conteudo, dispOrigem.getConfiguracao().getIp(), new EnderecoIP(ipDestino));
+			pacote.addOnPacoteRecebidoListener(this);
+		} catch (EnderecoIPMalFormadoException e) {
+			throw new DestinoInvalidoException("O destino " + ipDestino + " e invalido.");
+		}
+		retorno = "Pacote de origem=" + dispOrigem.getConfiguracao().getIp() + " e destino=" + ipDestino + " enviado";
+		this.console.append(retorno + "\n");
+		
+		return retorno;
+	}
+	
+	public void limparConsole() {
+		this.console = new StringBuffer();
+	}
+	
+	public String getConsole() {
+		return this.console.toString();
 	}
 	
 	private String gerarId() {
@@ -81,5 +181,29 @@ public class SessionManager {
             sb.append(Integer.toString(Math.abs(rand.nextInt()) % 16, 16));  
         } 
         return sb.toString();
+	}
+
+	@Override
+	public void onPacoteRecebido(Pacote pacote) {
+		this.console.append("Pacote origem=" + pacote.getOrigem() + " destino=" + pacote.getDestino() + " entregue com sucesso.\n");
+	}
+	
+	class SessionCollectorTimerTask extends TimerTask {
+
+		@Override
+		public void run() {
+			long hora = new Date().getTime();
+			Collection<Rede> remover = new HashSet<Rede>();
+			for (Rede rede : SessionManager.this.sessoes.values()) {
+				//verifico se a rede ja existe ha mais de SessionManager.TEMPO_DE_VIDA_SESSAO
+				if (hora - (rede.getHoraDeCriacao()) > SessionManager.TEMPO_DE_VIDA_SESSAO) {
+					remover.add(rede);
+				}
+			}
+			for (Rede rede : remover) {
+				SessionManager.this.sessoes.remove(rede);
+			}
+		}
+
 	}
 }

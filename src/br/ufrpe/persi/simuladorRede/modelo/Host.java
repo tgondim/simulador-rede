@@ -17,6 +17,7 @@ public class Host extends Dispositivo {
 		//Verifica se o dispositivo enviou para ele mesmo
 		if(pacote.getDestino().equals(this.getConfiguracao().getIp())){
 			this.setPacote(pacote);
+			pacote.notificarOnPacoteRecebidoListeners();
 		}
 	}
 	
