@@ -2,8 +2,6 @@
 Para Desenvolvedores
 ************
 
-.. sectionauthor:: 
-
 Visão geral sobre arquitetura do Simulador
 ======================
 	A arquiteruta do atual projeto é cliente-servidor. Desta forma a aplicação do cliente irá ter a responsabilidade de fazer chamadas ajax(uma tecnica de fazer chamadas ao servidor), para o servidor para criar a rede. A idéia é que o cliente o servidor fiquem sincronizados, para que quando o usuário executar algum comando no cliente, o servidor possa responder com a resposta correta.
