@@ -11,12 +11,20 @@ function criarNovaRede(){
 		dataType: 'json'
 			
 	}).done(function(resposta){
-		alert(resposta.id);
 		sessionId = resposta.id;
 	});	
 	
 	
 }
+
+$(".draggable").live('click',function(){
+	
+	$("#endereco_ip").val($(this).attr("data-ip"));
+	$("#mascara_sub_rede").val( $(this).attr("data-mask"));
+	$("#gateway_padrao").val($(this).attr("gateway"));
+	
+});
+
 
 $(document).ready(function() {
 
@@ -24,9 +32,9 @@ $(document).ready(function() {
 		
 	$(function() {
 
-		$("#endereco_ip").mask("999.999.999.999");
-		$("#mascara_sub_rede").mask("999.999.999.999");
-		$("#gateway_padrao").mask("999.999.999.999");
+		//$("#endereco_ip").mask("999.999.999.999");
+		//$("#mascara_sub_rede").mask("999.999.999.999");
+		//$("#gateway_padrao").mask("999.999.999.999");
 	});
 
 	$("#tab_computer").click(function() {

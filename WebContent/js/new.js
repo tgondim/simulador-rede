@@ -2,11 +2,11 @@ $(document).ready(function(){
 
 	$(".draggable").live('click',function(){
 
-		if($(this).attr("data-id")== ""){
+		if($(this).attr("data-id") == ""){
 			
 			$(this).attr("data-id", new Date().getTime());
 			$(this).attr("title", $(this).attr("data-id"));
-
+			
 			$.ajax({
 				type: 'POST',
 				url: 'SessionManagerServlet',
@@ -17,17 +17,19 @@ $(document).ready(function(){
 						"tipoDispositivo" : $(this).attr("data-tipo"),
 						"numInterfaces" : $(this).attr("data-num-interface"),
 					  },
-				dataTypeString: 'json'
+				dataType: 'json'
 
 			}).done(function(resposta){
-				if(resposta.result == "OK"){
-					alert("OK");
-				}
-				else{
-					alert("ERRO");
-				}
+				
+				$("#text_terminal").append(resposta.retorno + "\n");
+				
 			});	
 		}
+		else{			
+			$("#enviar_ping").attr("data-id-origem",$(this).attr("data-id"));
+			$("#id_dispositivo").val($(this).attr("data-id"));
+		}
+		
 	});
 });
 

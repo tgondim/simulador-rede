@@ -2,21 +2,27 @@ $(document).ready(function(){
 
 	$("#enviar_ping").click(function(){	
 		
+		if($(this).attr("data-id") != ""){
+			
+			$.ajax({
+				type: 'POST',
+				url: 'SessionManagerServlet',
+				data: {
+						"operacao" : "processarpacote",
+						"idRede" : sessionId,
+						"nomeOrigem" : $(this).attr('data-id-origem'),
+						"ipDestino" : "192.168.0.1",
+						"conteudo" : "1"
+						
+					  },
+				dataType: 'json'
 
-			if($(this).attr("data-id") != ""){
+			}).done(function(resposta){
 				
-				$.ajax({
-					type: 'POST',
-					url: 'SessionManagerServlet',
-					data: {
-							"operacao" : "criarNovaRede"
-								},
-					dataType: 'json'
-
-				}).done(function(resposta){
-					alert('result=' + resposta.result + ' id=' + resposta.id);
-				});	
-			}
+				$("#text_terminal").append(resposta.retorno + "\n");
+				
+			});	
+		}
 	
 	});
 });
