@@ -2,22 +2,30 @@ $(document).ready(function(){
 
 	$(".draggable").live('click',function(){
 
-		if($(this).attr("data-id").val() == ""){
+		if($(this).attr("data-id")== ""){
 			
 			$(this).attr("data-id", new Date().getTime());
 			$(this).attr("title", $(this).attr("data-id"));
 
 			$.ajax({
 				type: 'POST',
-				url: '/criarObjeto/' + ".json",
+				url: 'SessionManagerServlet',
 				data: {
-						"id" : $(this).attr('data-id'),
-						"tipo" : $(this).attr('data-tipo'), 
+						"operacao" : "criarDispositivo",
+						"idRede" : sessionId,
+						"nomeDispositivo" : $(this).attr("data-id"),
+						"tipoDispositivo" : $(this).attr("data-tipo"),
+						"numInterfaces" : $(this).attr("data-num-interface"),
 					  },
 				dataTypeString: 'json'
 
 			}).done(function(resposta){
-				
+				if(resposta.result == "OK"){
+					alert("OK");
+				}
+				else{
+					alert("ERRO");
+				}
 			});	
 		}
 	});

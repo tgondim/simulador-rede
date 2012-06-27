@@ -32,6 +32,10 @@
 <link rel="stylesheet" href="css/bootstrap.min.css" />
 <link rel="stylesheet" href="css/simulador.css" />
 
+<script>
+	var sessionId = "";
+</script>
+
 </head>
 
 <body>
@@ -64,15 +68,23 @@
 
 			<div class="span8 well">
 
-				<img class="draggable ui-draggable computer" class="ui-draggable" alt="Computer" title="Computer" src="img/computer.png" 
-					data-ip="" data-gateway="" data-mask="" data-id="" data-network="" data-mac="" data-tipo="computer"/> 
-				<img class="draggable ui-draggable router" class="ui-draggable" alt="Router" title="Router" src="img/router.png"
-				data-ip="" data-gateway="" data-id="" data-network="" data-mac="" data-tipo="router"/> 
-				<img class="draggable ui-draggable switch" class="ui-draggable" alt="Switch" title="Switch" src="img/switch.png" 
-				data-id="" data-network="" data-mac="" data-tipo="switch"/> 
-				<img class="draggable ui-draggable hub" class="ui-draggable" alt="Hub" title="Hub" src="img/hub.png"
-				data-id="" data-network="" data-mac="" data-tipo="hub" /> 
-				<img id="trash" alt="Trash" title="Hub" src="img/lixeira.jpg"/>
+				<img class="draggable ui-draggable computer" class="ui-draggable"
+					alt="Computer" title="Computer" src="img/computer.png" data-num-interface="1" data-ip=""
+					data-gateway="" data-mask="" data-id="" data-network="" data-mac=""
+					data-tipo="computer" /> 
+					<img class="draggable ui-draggable router"
+					class="ui-draggable" alt="Router" title="Router"
+					src="img/router.png" data-num-interface="32" data-ip="" data-gateway="" data-id=""
+					data-network="" data-mac="" data-tipo="router" /> 
+					<img
+					class="draggable ui-draggable switch" class="ui-draggable"
+					alt="Switch" title="Switch" src="img/switch.png" data-num-interface="8" data-id=""
+					data-network="" data-mac="" data-tipo="switch" /> <img
+					class="draggable ui-draggable hub" class="ui-draggable" alt="Hub"
+					title="Hub" src="img/hub.png" data-num-interface="8" data-id="" data-network=""
+					data-mac="" data-tipo="hub" /> 
+					<img id="trash" alt="Trash"
+					title="Hub" src="img/lixeira.jpg" />
 
 			</div>
 
@@ -130,8 +142,10 @@
 
 					<button type="submit" class="btn btn-success">Salvar
 						Configurações</button>
-					<input type="button" id="" class="btn btn-success" value="Save Config..For Test" onClick="saveConfigDevice();" />
-					<input type="button" id="" class="btn" value="Send to Server..For Test" onClick="sendDataToServer();" />
+					<input type="button" id="" class="btn btn-success"
+						value="Save Config..For Test" onClick="saveConfigDevice();" /> <input
+						type="button" id="" class="btn" value="Send to Server..For Test"
+						onClick="sendDataToServer();" />
 
 				</form>
 
@@ -222,8 +236,9 @@
 			<div id="terminal" class="span8 well">
 
 				<textarea id="text_terminal" type="text"
-					placeholder="Enter your command"></textarea><br/><br/>
-					<button id="enviar_ping" type="submit" class="btn btn-info">Send</button>
+					placeholder="Enter your command"></textarea>
+				<br /> <br />
+				<button id="enviar_ping" type="submit" class="btn btn-info">Send</button>
 			</div>
 
 		</div>

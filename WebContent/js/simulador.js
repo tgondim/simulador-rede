@@ -1,5 +1,27 @@
+//sessionId = "";
+
+function criarNovaRede(){
+	
+	$.ajax({
+		type: 'POST',
+		url: 'SessionManagerServlet',
+		data: {
+			"operacao" : "criarNovaRede" 
+		},
+		dataType: 'json'
+			
+	}).done(function(resposta){
+		alert(resposta.id);
+		sessionId = resposta.id;
+	});	
+	
+	
+}
+
 $(document).ready(function() {
 
+	criarNovaRede();	
+		
 	$(function() {
 
 		$("#endereco_ip").mask("999.999.999.999");
