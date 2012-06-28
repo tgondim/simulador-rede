@@ -1,6 +1,6 @@
-=============
+=================
 Simulador de Rede
-=============
+=================
 Simulador de Rede é uma ferramenta com intuito de facilitar o aprendizado de redes por parte do aluno.
 
 O projeto está sendo hospedado no bitbucket.org, desde 31 May 2012.

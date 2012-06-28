@@ -56,15 +56,27 @@
 <h1>Para Desenvolvedores<a class="headerlink" href="#para-desenvolvedores" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="visao-geral-sobre-arquitetura-do-simulador">
 <h2>Visão geral sobre arquitetura do Simulador<a class="headerlink" href="#visao-geral-sobre-arquitetura-do-simulador" title="Permalink to this headline">¶</a></h2>
+<p>A arquiteruta do atual projeto é cliente-servidor. Desta forma a aplicação do cliente irá ter a responsabilidade de fazer chamadas AJAX(uma técnica de fazer chamadas ao servidor), para o servidor para criar a rede. A idéia é que o cliente e o servidor fiquem sincronizados, para que quando o usuário executar algum comando no cliente, o servidor possa responder com a resposta correta.</p>
+<p>A construção do projeto usando essa arquitetura foi imposta, pois os participantes do desenvolvimento do projeto não possuíam pleno conhecimento da linguagem JavaScript, para que ela fosse construída.</p>
+</div>
+<div class="section" id="estrutura-de-arquivos">
+<h2>Estrutura de arquivos<a class="headerlink" href="#estrutura-de-arquivos" title="Permalink to this headline">¶</a></h2>
+<p>O simulador está dividido em uma séria de diretórios.</p>
 <blockquote>
-<div><p>A arquiteruta do atual projeto é cliente-servidor. Desta forma a aplicação do cliente irá ter a responsabilidade de fazer chamadas ajax(uma tecnica de fazer chamadas ao servidor), para o servidor para criar a rede. A idéia é que o cliente o servidor fiquem sincronizados, para que quando o usuário executar algum comando no cliente, o servidor possa responder com a resposta correta.</p>
-<p>A construção do projeto usando essa arquitetura fui imposta pois os participantes do desenvolvimento do projeto, não possuiam pleno conhecimento da linguagem <cite>JavaScript</cite>, para que ela fosse construída.</p>
+<div><ul class="simple">
+<li><cite>Docs/</cite>               Nesse diretório está localizado todos os documentos relacionados a documentação.</li>
+<li><cite>Docs/source/</cite>                Neste diretório dentro da pasta Docs, está a documentação criada com Sphinx. Para mais detalhes de como manusear, visite: <a class="reference external" href="http://sphinx.pocoo.org">http://sphinx.pocoo.org</a></li>
+<li><cite>Docs/build/html/</cite>            Neste diretório está a documentação em HTML gerada pelo Sphinx. Também é possível gerar PDF, EPUB, entre outros formatos.</li>
+<li><cite>src/</cite>        Código fonte java, que irá rodar no servidor.</li>
+<li><cite>WebContent/</cite>         Codigo HTML, JavaScript, CSS, que irá funcionar no cliente.</li>
+<li><cite>WebContent/WEB-INF/</cite> Libs .jar que serão usadas pelo codigo fonte java.</li>
+</ul>
 </div></blockquote>
 </div>
 <div class="section" id="diagrama-de-classe-do-servidor">
 <h2>Diagrama de Classe do Servidor<a class="headerlink" href="#diagrama-de-classe-do-servidor" title="Permalink to this headline">¶</a></h2>
 <p>Abaixo está o diagrama de classes da parte do core do projeto que é executada no servidor.</p>
-<a class="reference internal image-reference" href="../../DiagramadeClasse.png"><img alt="../../DiagramadeClasse.png" src="../../DiagramadeClasse.png" style="height: 520.0px;" /></a>
+<a class="reference internal image-reference" href="_images/DiagramadeClasse.png"><img alt="_images/DiagramadeClasse.png" src="_images/DiagramadeClasse.png" style="height: 520.0px;" /></a>
 </div>
 <div class="section" id="funcionamento-do-cliente">
 <h2>Funcionamento do Cliente<a class="headerlink" href="#funcionamento-do-cliente" title="Permalink to this headline">¶</a></h2>
@@ -73,7 +85,6 @@
 <ul class="simple">
 <li>Abaixo exemplo de código para a chamada do ping no Servidor:</li>
 </ul>
-</div></blockquote>
 <p>$(document).ready(function(){</p>
 <blockquote>
 <div><p>$(&#8220;#enviar_ping&#8221;).click(function(){</p>
@@ -107,6 +118,7 @@ data: {</p>
 <p>});</p>
 </div></blockquote>
 <p>});</p>
+</div></blockquote>
 </div>
 </div>
 
@@ -120,6 +132,7 @@ data: {</p>
   <ul>
 <li><a class="reference internal" href="#">Para Desenvolvedores</a><ul>
 <li><a class="reference internal" href="#visao-geral-sobre-arquitetura-do-simulador">Visão geral sobre arquitetura do Simulador</a></li>
+<li><a class="reference internal" href="#estrutura-de-arquivos">Estrutura de arquivos</a></li>
 <li><a class="reference internal" href="#diagrama-de-classe-do-servidor">Diagrama de Classe do Servidor</a></li>
 <li><a class="reference internal" href="#funcionamento-do-cliente">Funcionamento do Cliente</a></li>
 </ul>
@@ -170,7 +183,7 @@ data: {</p>
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Danilo Soares, Fabio Santos, Gilson Freitas, Marcelo Coelho ,Nielson Santana ,Tiago Gondim, Siedberg, Raphael Ribeiro.
+        &copy; Copyright 2012, Danilo Soares, Fabio Santos, Gilson Freitas, Marcelo Coelho ,Nielson Santana ,Tiago Gondim, Siedberg Silva, Raphael Ribeiro.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

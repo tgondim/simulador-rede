@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Simulador de Rede '
-copyright = u'2012, Danilo Soares, Fabio Santos, Gilson Freitas, Marcelo Coelho ,Nielson Santana ,Tiago Gondim, Siedberg, Raphael Ribeiro'
+copyright = u'2012, Danilo Soares, Fabio Santos, Gilson Freitas, Marcelo Coelho ,Nielson Santana ,Tiago Gondim, Siedberg Silva, Raphael Ribeiro'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

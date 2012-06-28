@@ -1,13 +1,13 @@
-************
+*********************
 Download e Instalação
-************
+*********************
 
 Instalação
 ============
-Este aquivo descreve processo de instalação do Simulador de Rede, para que ele possa ser usado.
-This file describes the installation of SimPy |release|.
+Este aquivo descreve processo de instalação do Simulador de Rede, de forma a permitir que ele seja modificado.
+O projeto Simulado Rede usa o controle de versão Git(http://git-scm.com) e está hospedado no site BitBucket.org(https://bitbucket.org/tgondim/simulador-rede/).
 
-#. Check that you have Python 2.6 or above.
+Abaixo estão as instruções para a instalação do Eclipse, EGit(plugin do git para Eclipse) e o Tomcat, necessário para executar o código java.
 
 #. Primeiro será necessário instalar o Eclipse para Java.
 
