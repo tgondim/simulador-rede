@@ -6,6 +6,7 @@ $(document).ready(function(){
 			
 			$(this).attr("data-id", new Date().getTime());
 			$(this).attr("title", $(this).attr("data-id"));
+			$(this).attr("id", $(this).attr("data-id"));
 			
 			$.ajax({
 				type: 'POST',
@@ -21,13 +22,17 @@ $(document).ready(function(){
 
 			}).done(function(resposta){
 				
-				$("#text_terminal").append(resposta.retorno + "\n");
+				$(".alert-info").empty();
+				$(".alert-info").html(
+					"<button class='close' data-dismiss='alert'>×</button><strong>"+resposta.retorno+"</strong>"
+				);
 				
 			});	
 		}
 		else{			
 			$("#enviar_ping").attr("data-id-origem",$(this).attr("data-id"));
 			$("#id_dispositivo").val($(this).attr("data-id"));
+			$("#endereco_ip").val($(this).attr("data-ip"));
 		}
 		
 	});

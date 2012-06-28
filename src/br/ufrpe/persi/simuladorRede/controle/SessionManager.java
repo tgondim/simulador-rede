@@ -165,12 +165,15 @@ public class SessionManager implements OnPacoteRecebidoListener {
 	}
 	
 	public String processarPacote(String idRede, String nomeOrigem, String ipDestino, String conteudo) throws DispositivoNaoEncontradoException, DestinoInvalidoException {
+		
 		String retorno = "";
+		
 		Dispositivo dispOrigem = this.sessoes.get(idRede).getDispositivos().get(nomeOrigem);
 
 		if (dispOrigem == null) {
 			throw new DispositivoNaoEncontradoException("Não foi possível encontrar o dispositivo de id " + nomeOrigem + ".");
 		}
+		
 		
 		try {
 			Pacote pacote = new Pacote(conteudo, dispOrigem.getConfiguracao().getIp(), new EnderecoIP(ipDestino));
@@ -179,9 +182,11 @@ public class SessionManager implements OnPacoteRecebidoListener {
 				throw new DispositivoNaoEncontradoException("Não foi possível encontrar o Host de id " + nomeOrigem + ".");
 			}
 			((Host)dispOrigem).enviarPacote(pacote);
+			
 		} catch (EnderecoIPMalFormadoException e) {
 			throw new DestinoInvalidoException("O destino " + ipDestino + " e invalido.");
 		}
+		
 		retorno = "Pacote de origem=" + dispOrigem.getConfiguracao().getIp() + " e destino=" + ipDestino + " enviado";
 		this.console.append(retorno + "\n");
 		

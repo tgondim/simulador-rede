@@ -23,9 +23,14 @@ public class Host extends Dispositivo {
 	}
 	
 	public void enviarPacote(Pacote pacote) {
+		
 		// Verifica se o dispositivo esta conectado a outro dispositivo
 		pacote.setOrigem(this.getConfiguracao().getIp());
 		Dispositivo disp = null;
+		if(this.getConfiguracao().getIp().equals(pacote.getDestino())){
+			pacote.setEntregue(true);
+			pacote.notificarOnPacoteRecebidoListeners();
+		}
 		for (int i = 0; i < this.dispositivosConectados.size(); i++) {
 			if((disp = this.dispositivosConectados.get(i)) != null){
 //				if (disp.getConfiguracao().getIp().equals(pacote.getDestino())) {

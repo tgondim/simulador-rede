@@ -55,20 +55,21 @@ public class SessionManagerServlet extends HttpServlet {
 			}			
 		} else if (operacao.toLowerCase().equals("alterarpropriedadedispositivo")) {
 			try {
-				retorno = SessionManager.getInstance().criarDispositivo((String)request.getParameter("idRede"), 
+				retorno = SessionManager.getInstance().alterarPropriedadeDispositivo((String)request.getParameter("idRede"), 
 						(String)request.getParameter("nomeDispositivo"), 
 						(String)request.getParameter("nome"), 
-						Integer.valueOf(request.getParameter("valor")));
+						//Integer.valueOf(request.getParameter("valor")));
+						(String)request.getParameter("valor"));
 				response.getWriter().write("{\"result\" : \"OK\", \"retorno\" : \""  + retorno + "\"}");
 			} catch (Exception e) {
+				System.out.println("exception");
 				response.getWriter().write("{\"result\" : \"ERRO\", \"retorno\" : \""  + e.getMessage() + "\"}");
 			}			
 		} else if (operacao.toLowerCase().equals("processarpacote")) {
 			try {
-				retorno = SessionManager.getInstance().criarDispositivo((String)request.getParameter("idRede"), 
-						(String)request.getParameter("nomeOrigem"), 
-						(String)request.getParameter("ipDestino"), 
-						Integer.valueOf(request.getParameter("conteudo")));
+				 retorno = SessionManager.getInstance().processarPacote((String)request.getParameter("idRede"), (String)request.getParameter("nomeOrigem"),
+						(String)request.getParameter("ipDestino"),
+						(String)request.getParameter("conteudo"));
 				response.getWriter().write("{\"result\" : \"OK\", \"retorno\" : \""  + retorno + "\"}");
 			} catch (Exception e) {
 				response.getWriter().write("{\"result\" : \"ERRO\", \"retorno\" : \""  + e.getMessage() + "\"}");
