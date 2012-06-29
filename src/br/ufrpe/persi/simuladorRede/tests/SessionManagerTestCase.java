@@ -74,7 +74,7 @@ public class SessionManagerTestCase extends TestCase {
 	public void testEncaminharPacoteViaRouter() {
 		try {
 			String retorno = SessionManager.getInstance().processarPacote(this.sessionId, "host1", "10.1.0.100", "ping");
-			System.out.println(SessionManager.getInstance().getConsole());
+			System.out.println(SessionManager.getInstance().getConsole(this.sessionId));
 			assertEquals(retorno, "Pacote de origem=10.0.0.100 e destino=10.1.0.100 enviado");
 		} catch (Exception e) {
 			fail(e.getMessage());

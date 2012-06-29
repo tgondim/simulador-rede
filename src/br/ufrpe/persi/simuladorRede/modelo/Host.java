@@ -23,6 +23,8 @@ public class Host extends Dispositivo {
 	}
 	
 	public void enviarPacote(Pacote pacote) {
+		//inicio a contagem do tempo de vida do pacote
+		pacote.iniciarContagemTempoDeExpiracao();
 		
 		// Verifica se o dispositivo esta conectado a outro dispositivo
 		pacote.setOrigem(this.getConfiguracao().getIp());
@@ -30,6 +32,7 @@ public class Host extends Dispositivo {
 		if(this.getConfiguracao().getIp().equals(pacote.getDestino())){
 			pacote.setEntregue(true);
 			pacote.notificarOnPacoteRecebidoListeners();
+			return;
 		}
 		for (int i = 0; i < this.dispositivosConectados.size(); i++) {
 			if((disp = this.dispositivosConectados.get(i)) != null){

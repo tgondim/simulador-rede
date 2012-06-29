@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+		
 	$("#enviar_ping").click(function(){	
 		
 		var terminal = $("#text_terminal").val();
@@ -21,24 +21,19 @@ $(document).ready(function(){
 				dataType: 'json'
 
 			}).done(function(resposta){
-				
-				$.ajax({
-					type: 'POST',
-					url: 'SessionManagerServlet',
-					data: {
-							"operacao" : "getConsole"
-						  },
-					dataType: 'json'
-
-				}).done(retornaConsole(retornoConsole));	
-				
-			});	
+				$("#terminal").empty();
+				$("#terminal").html(
+						"<textarea id='text_terminal' type='text' placeholder='Enter your command'>" +
+						"" + resposta.retorno + "\n</textarea>"
+				);
+			});				
 		}
-		
-		function retornaConsole(retornoConsole){
-			$("#text_terminal").empty();
-			$("#text_terminal").val(retornoConsole.retorno + "\n");
-		}
+	});
 	
+	$("#limpar_terminal").click(function(){
+		$("#terminal").empty();
+		$("#terminal").html(
+				"<textarea id='text_terminal' type='text' placeholder='Enter your command'></textarea>"
+		);
 	});
 });

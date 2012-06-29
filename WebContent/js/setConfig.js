@@ -50,7 +50,10 @@ $(document).ready(function(){
 
 			}).done(function(resposta){
 				
-				$("#text_terminal").append(resposta.retorno + "\n");
+				$(".alert-info").empty();
+				$(".alert-info").html(
+						"<button class='close' data-dismiss='alert'>×</button><strong>"+resposta.retorno+"</strong>"
+				);
 				
 			});	
 		}
@@ -76,7 +79,10 @@ $(document).ready(function(){
 
 			}).done(function(resposta){
 				
-				$("#text_terminal").append(resposta.retorno + "\n");
+				$(".alert-info").empty();
+				$(".alert-info").html(
+						"<button class='close' data-dismiss='alert'>×</button><strong>"+resposta.retorno+"</strong>"
+				);
 				
 			});	
 		} 

@@ -1,17 +1,11 @@
 package br.ufrpe.persi.simuladorRede.controle;
 
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import br.ufrpe.persi.simuladorRede.controle.exception.DestinoInvalidoException;
 import br.ufrpe.persi.simuladorRede.controle.exception.DispositivoNaoEncontradoException;
-import br.ufrpe.persi.simuladorRede.listeners.OnPacoteRecebidoListener;
 import br.ufrpe.persi.simuladorRede.modelo.ConfiguracaoRede;
 import br.ufrpe.persi.simuladorRede.modelo.Dispositivo;
 import br.ufrpe.persi.simuladorRede.modelo.EnderecoIP;
@@ -25,17 +19,16 @@ import br.ufrpe.persi.simuladorRede.modelo.exception.EnderecoIPMalFormadoExcepti
 import br.ufrpe.persi.simuladorRede.modelo.exception.ImpossivelConectarDispositivoExeption;
 import br.ufrpe.persi.simuladorRede.modelo.exception.ImpossivelCriarDispositivoExeption;
 
-public class SessionManager implements OnPacoteRecebidoListener {
+public class SessionManager {
 
 	//tempo de vida da sessao em milissegundos
-	private static final long TEMPO_DE_VIDA_SESSAO = 300000; //5 min
+//	private static final long TEMPO_DE_VIDA_SESSAO = 300000; //5 min
 	
 	private static SessionManager instance;
 	
-	private Map<String, Rede> sessoes;
-	private StringBuffer console;
+	private Map<String, Rede> sessoes;	
 	
-	private Timer sessionCollector;
+//	private Timer sessionCollector;
 	
 	static {
 		SessionManager.instance = new SessionManager();
@@ -44,9 +37,8 @@ public class SessionManager implements OnPacoteRecebidoListener {
 	private SessionManager() {
 		super();
 		this.sessoes = new HashMap<String, Rede>();
-		this.console = new StringBuffer();
-		this.sessionCollector = new Timer();
-		this.sessionCollector.scheduleAtFixedRate(new SessionCollectorTimerTask(), SessionManager.TEMPO_DE_VIDA_SESSAO, SessionManager.TEMPO_DE_VIDA_SESSAO);
+//		this.sessionCollector = new Timer();
+//		this.sessionCollector.scheduleAtFixedRate(new SessionCollectorTimerTask(), SessionManager.TEMPO_DE_VIDA_SESSAO, SessionManager.TEMPO_DE_VIDA_SESSAO);
 	}
 	
 	public static SessionManager getInstance() {
@@ -56,7 +48,7 @@ public class SessionManager implements OnPacoteRecebidoListener {
 	public String criarNovaRede() {
 		String newId = gerarId();
 		this.sessoes.put(newId, new Rede(newId));
-		this.console.append("Nova rede de id " + newId + " criada com sucesso.\n");
+		this.sessoes.get(newId).getConsole().append("Nova rede de id " + newId + " criada com sucesso.\n");
 		return newId;
 	}
 	
@@ -83,7 +75,7 @@ public class SessionManager implements OnPacoteRecebidoListener {
 		}
 		
 		retorno =  "Dispositivo de id " + nomeDispositivo + " criado com sucesso.";
-		this.console.append(retorno + "\n");
+		this.sessoes.get(idRede).getConsole().append(retorno + "\n");
 		
 		return retorno;
 	}
@@ -120,7 +112,7 @@ public class SessionManager implements OnPacoteRecebidoListener {
 			}
 		}
 		retorno = "Propriedade " + nome + " alterada com sucesso.";
-		this.console.append(retorno + "\n");
+		this.sessoes.get(idRede).getConsole().append(retorno + "\n");
 		
 		return retorno;
 	}
@@ -159,7 +151,7 @@ public class SessionManager implements OnPacoteRecebidoListener {
 			throw new ImpossivelConectarDispositivoExeption("Não foi possível conectar os dispositivos de id " + nomeDispositivo1 +  " e " + nomeDispositivo2 + ".");
 		}
 		retorno = "Dispositivos " + nomeDispositivo1 + " e " + nomeDispositivo2 + " conectados com sucesso.";
-		this.console.append(retorno + "\n");
+		this.sessoes.get(idRede).getConsole().append(retorno + "\n");
 		
 		return retorno;
 	}
@@ -177,7 +169,7 @@ public class SessionManager implements OnPacoteRecebidoListener {
 		
 		try {
 			Pacote pacote = new Pacote(conteudo, dispOrigem.getConfiguracao().getIp(), new EnderecoIP(ipDestino));
-			pacote.addOnPacoteRecebidoListener(this);
+			pacote.addOnPacoteRecebidoListener(this.sessoes.get(idRede));
 			if (!(dispOrigem instanceof Host)) {
 				throw new DispositivoNaoEncontradoException("Não foi possível encontrar o Host de id " + nomeOrigem + ".");
 			}
@@ -187,18 +179,22 @@ public class SessionManager implements OnPacoteRecebidoListener {
 			throw new DestinoInvalidoException("O destino " + ipDestino + " e invalido.");
 		}
 		
-		retorno = "Pacote de origem=" + dispOrigem.getConfiguracao().getIp() + " e destino=" + ipDestino + " enviado";
-		this.console.append(retorno + "\n");
+		retorno = "PING - Disparando " + ipDestino + " com dados";
+		this.sessoes.get(idRede).getConsole().append(retorno + "\n");
 		
-		return retorno;
+		return this.sessoes.get(idRede).getPingConsole().toString();
+	}	
+	
+	public void limparConsole(String idRede) {
+		this.sessoes.get(idRede).limparConsole();
 	}
 	
-	public void limparConsole() {
-		this.console = new StringBuffer();
+	public StringBuffer getConsole(String idRede) {
+		return this.sessoes.get(idRede).getConsole();
 	}
 	
-	public String getConsole() {
-		return this.console.toString();
+	public StringBuffer getPingConsole(String idRede) {
+		return this.sessoes.get(idRede).getPingConsole();
 	}
 	
 	private String gerarId() {
@@ -209,28 +205,23 @@ public class SessionManager implements OnPacoteRecebidoListener {
         } 
         return sb.toString();
 	}
-
-	@Override
-	public void onPacoteRecebido(Pacote pacote) {
-		this.console.append("PING - Pacote origem=" + pacote.getOrigem() + " destino=" + pacote.getDestino() + " entregue com sucesso.\n");
-	}
 	
-	class SessionCollectorTimerTask extends TimerTask {
-
-		@Override
-		public void run() {
-			long hora = new Date().getTime();
-			Collection<Rede> remover = new HashSet<Rede>();
-			for (Rede rede : SessionManager.this.sessoes.values()) {
-				//verifico se a rede ja existe ha mais de SessionManager.TEMPO_DE_VIDA_SESSAO
-				if (hora - (rede.getHoraDeCriacao()) > SessionManager.TEMPO_DE_VIDA_SESSAO) {
-					remover.add(rede);
-				}
-			}
-			for (Rede rede : remover) {
-				SessionManager.this.sessoes.remove(rede);
-			}
-		}
-
-	}
+//	class SessionCollectorTimerTask extends TimerTask {
+//
+//		@Override
+//		public void run() {
+//			long hora = new Date().getTime();
+//			Collection<Rede> remover = new HashSet<Rede>();
+//			for (Rede rede : SessionManager.this.sessoes.values()) {
+//				//verifico se a rede ja existe ha mais de SessionManager.TEMPO_DE_VIDA_SESSAO
+//				if (hora - (rede.getHoraDeCriacao()) > SessionManager.TEMPO_DE_VIDA_SESSAO) {
+//					remover.add(rede);
+//				}
+//			}
+//			for (Rede rede : remover) {
+//				SessionManager.this.sessoes.remove(rede);
+//			}
+//		}
+//
+//	}
 }

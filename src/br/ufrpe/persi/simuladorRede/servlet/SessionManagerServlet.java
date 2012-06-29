@@ -61,8 +61,7 @@ public class SessionManagerServlet extends HttpServlet {
 						//Integer.valueOf(request.getParameter("valor")));
 						(String)request.getParameter("valor"));
 				response.getWriter().write("{\"result\" : \"OK\", \"retorno\" : \""  + retorno + "\"}");
-			} catch (Exception e) {
-				System.out.println("exception");
+			} catch (Exception e) {				
 				response.getWriter().write("{\"result\" : \"ERRO\", \"retorno\" : \""  + e.getMessage() + "\"}");
 			}			
 		} else if (operacao.toLowerCase().equals("processarpacote")) {
@@ -84,10 +83,10 @@ public class SessionManagerServlet extends HttpServlet {
 				response.getWriter().write("{\"result\" : \"ERRO\", \"retorno\" : \""  + e.getMessage() + "\"}");
 			}		
 		} else if (operacao.toLowerCase().equals("limparconsole")) {
-			SessionManager.getInstance().limparConsole();
+			SessionManager.getInstance().limparConsole((String)request.getParameter("idRede"));
 			response.getWriter().write("{\"result\" : \"OK\"}");
 		} else if (operacao.toLowerCase().equals("getconsole")) {
-			String console = SessionManager.getInstance().getConsole();
+			String console = SessionManager.getInstance().getConsole((String)request.getParameter("idRede")).toString();
 			response.getWriter().write("{\"result\" : \"OK\", \"id\" : \""  + console + "\"}");
 		} else if (operacao.toLowerCase().equals("adicionarrota")) {
 			try {

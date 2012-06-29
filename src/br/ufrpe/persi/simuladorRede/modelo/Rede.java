@@ -4,16 +4,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Rede {
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import br.ufrpe.persi.simuladorRede.listeners.OnPacoteRecebidoListener;
+
+public class Rede implements OnPacoteRecebidoListener{
 
 	private String id;
 	private Map<String, Dispositivo> dispositivos;
 	private long horaDeCriacao;
+	private StringBuffer console;
+	private StringBuffer pingConsole;
 	
 	public Rede(String newId) {
 		this.id = newId;
 		this.dispositivos = new HashMap<String, Dispositivo>();
 		this.horaDeCriacao = new Date().getTime();
+		this.console = new StringBuffer();
+		this.pingConsole = new StringBuffer();
 	}
 	
 	public void addDispositivo(Dispositivo newDispositivo) {
@@ -40,6 +48,33 @@ public class Rede {
 		return this.horaDeCriacao;
 	}
 
+	public void limparConsole() {
+		this.console = new StringBuffer();
+		this.pingConsole = new StringBuffer();
+	}
+	
+	public StringBuffer getConsole() {
+		return this.console;
+	}
+	
+	public StringBuffer getPingConsole() {
+		return this.pingConsole;
+	}
+	
+	@Override
+	public void onPacoteRecebido(Pacote pacote) {
+		if (pacote.isEntregue()) {
+			this.console.append("PING - Pacote origem=" + pacote.getOrigem() + " destino=" + pacote.getDestino() + " entregue com sucesso.\n");
+			this.pingConsole.append("PING - Pacote origem=" + pacote.getOrigem() + " destino=" + pacote.getDestino() + " entregue com sucesso.\n");
+		} else if (pacote.isExpirado()) {
+			this.console.append("PING - Pacote origem=" + pacote.getOrigem() + " destino=" + pacote.getDestino() + " NÃO foi entregue.\nTempo limite esgotado.\n");
+			this.pingConsole.append("PING - Pacote origem=" + pacote.getOrigem() + " destino=" + pacote.getDestino() + " NÃO foi entregue.\nTempo limite esgotado.\n");
+		} else {
+			//este caso nao deve ocorrer
+			throw new NotImplementedException();
+		}
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Rede)) {

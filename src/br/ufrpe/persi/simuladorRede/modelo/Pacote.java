@@ -9,10 +9,13 @@ import br.ufrpe.persi.simuladorRede.listeners.OnPacoteRecebidoObserver;
 
 public class Pacote implements OnPacoteRecebidoObserver {
 	
+	private static final long TEMPO_DE_EXPIRACAO = 10000; 
+	
 	private EnderecoIP origem;
 	private EnderecoIP destino;
 	private String conteudo;
 	private boolean entregue;
+	private boolean expirado;
 	private List<OnPacoteRecebidoListener> onPacoteRecebidoListeners;
 	
 	public Pacote(String conteudo) {
@@ -20,6 +23,7 @@ public class Pacote implements OnPacoteRecebidoObserver {
 		this.onPacoteRecebidoListeners = new ArrayList<OnPacoteRecebidoListener>();
 		this.conteudo = conteudo;
 		this.entregue = false;
+		this.expirado = false;
 	}
 	
 	public Pacote(String conteudo, EnderecoIP newDestino) {
@@ -77,5 +81,32 @@ public class Pacote implements OnPacoteRecebidoObserver {
 
 	public void setEntregue(boolean entregue) {
 		this.entregue = entregue;
+	}
+
+	public boolean isExpirado() {
+		return expirado;
+	}
+
+	public void setExpirado(boolean expirado) {
+		this.expirado = expirado;
+	}
+	
+	public void iniciarContagemTempoDeExpiracao() {
+		new Thread(new TempoDeExpiracaoPacoteRunnable()).start();
+	}
+
+	class TempoDeExpiracaoPacoteRunnable implements Runnable {
+		
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(Pacote.TEMPO_DE_EXPIRACAO);				
+			} catch (InterruptedException e) {
+			}
+			if (!Pacote.this.isEntregue()) {
+				Pacote.this.setExpirado(true);
+				notificarOnPacoteRecebidoListeners();
+			}
+		}
 	}
 }
