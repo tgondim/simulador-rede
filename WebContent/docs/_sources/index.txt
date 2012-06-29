@@ -10,6 +10,7 @@ A ferramenta que está sendo proposta procura evitar a complexidade de algumas f
 
 O simulador poderá ser executado localmente ou disponibilizado via internet através de um servidor Apache-Tomcat. O usuário deve efetuar o seu registro caso deseje salvar os seus projetos e as suas configurações. A interface da ferramenta é bastante intuitiva, bastando o usuário clicar e arrastar os componentes (host, roteadores, switches e hubs) que formarão a rede, preencher as especificações técnicas de cada objeto (endereçamento IP) e realizar os seus testes de conectividade (ping).
 
+Desta forma, acreditamos que a ferramenta será de grande ajuda ao estudante iniciante devido ao seu visual “limpo” e à sua interface intuitiva.
 
 Bem vindo a documentação do Simulador de Rede!
 ==============================================
@@ -18,8 +19,9 @@ Conteúdo:
 
 .. toctree::
    :maxdepth: 2
-	
+   
    Introducao
+   Opinioes	
    Instalacao
    Developers
    HISTORY
