@@ -127,7 +127,7 @@ public class SessionManager {
 		
 		Dispositivo dispositivo = this.sessoes.get(idRede).getDispositivos().get(idDispositivo);
 		if (dispositivo == null) {
-			throw new DispositivoNaoEncontradoException("Não foi possível encontrar o dispositivo de id " + idDispositivo + ".");
+			throw new DispositivoNaoEncontradoException("Nao foi possivel encontrar o dispositivo de id " + idDispositivo + ".");
 		}
 
 		((Router)router).adicionarRota(new EnderecoIP(nomeRede), dispositivo);
@@ -145,10 +145,10 @@ public class SessionManager {
 				dispositivo1.conectarDispositivo(dispositivo2);
 				dispositivo2.conectarDispositivo(dispositivo1);
 			} catch (ImpossivelCriarDispositivoExeption e) {
-				throw new ImpossivelConectarDispositivoExeption("Não foi possível conectar os dispositivos de id " + nomeDispositivo1 +  " e " + nomeDispositivo2 + ".");
+				throw new ImpossivelConectarDispositivoExeption("Nao foi possivel conectar os dispositivos de id " + nomeDispositivo1 +  " e " + nomeDispositivo2 + ".");
 			}
 		} else {
-			throw new ImpossivelConectarDispositivoExeption("Não foi possível conectar os dispositivos de id " + nomeDispositivo1 +  " e " + nomeDispositivo2 + ".");
+			throw new ImpossivelConectarDispositivoExeption("Nao foi possivel conectar os dispositivos de id " + nomeDispositivo1 +  " e " + nomeDispositivo2 + ".");
 		}
 		retorno = "Dispositivos " + nomeDispositivo1 + " e " + nomeDispositivo2 + " conectados com sucesso.";
 		this.sessoes.get(idRede).getConsole().append(retorno + "\n");
@@ -163,7 +163,7 @@ public class SessionManager {
 		Dispositivo dispOrigem = this.sessoes.get(idRede).getDispositivos().get(nomeOrigem);
 
 		if (dispOrigem == null) {
-			throw new DispositivoNaoEncontradoException("Não foi possível encontrar o dispositivo de id " + nomeOrigem + ".");
+			throw new DispositivoNaoEncontradoException("Nao foi possivel encontrar o dispositivo de id " + nomeOrigem + ".");
 		}
 		
 		
@@ -171,7 +171,7 @@ public class SessionManager {
 			Pacote pacote = new Pacote(conteudo, dispOrigem.getConfiguracao().getIp(), new EnderecoIP(ipDestino));
 			pacote.addOnPacoteRecebidoListener(this.sessoes.get(idRede));
 			if (!(dispOrigem instanceof Host)) {
-				throw new DispositivoNaoEncontradoException("Não foi possível encontrar o Host de id " + nomeOrigem + ".");
+				throw new DispositivoNaoEncontradoException("Nao foi possivel encontrar o Host de id " + nomeOrigem + ".");
 			}
 			((Host)dispOrigem).enviarPacote(pacote);
 			

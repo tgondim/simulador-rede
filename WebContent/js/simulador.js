@@ -23,6 +23,9 @@ $(".draggable").live('click',function(){
 	$("#mascara_sub_rede").val( $(this).attr("data-mask"));
 	$("#gateway_padrao").val($(this).attr("gateway"));
 	
+	$(".draggable").css("border","none");
+	$(this).css("border","3px solid red");
+	
 });
 
 
