@@ -1,0 +1,190 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Para Desenvolvedores &mdash; Simulador de Rede  v0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     'v0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Simulador de Rede  v0.1 documentation" href="index.html" />
+    <link rel="next" title="Simulador de Rede" href="HISTORY.html" />
+    <link rel="prev" title="Download e Instalação" href="Instalacao.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="HISTORY.html" title="Simulador de Rede"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Instalacao.html" title="Download e Instalação"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Simulador de Rede  v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="para-desenvolvedores">
+<h1>Para Desenvolvedores<a class="headerlink" href="#para-desenvolvedores" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="visao-geral-sobre-arquitetura-do-simulador">
+<h2>Visão geral sobre arquitetura do Simulador<a class="headerlink" href="#visao-geral-sobre-arquitetura-do-simulador" title="Permalink to this headline">¶</a></h2>
+<p>A arquiteruta do atual projeto é cliente-servidor. Desta forma a aplicação do cliente irá ter a responsabilidade de fazer chamadas AJAX(uma técnica de fazer chamadas ao servidor), para o servidor para criar a rede. A idéia é que o cliente e o servidor fiquem sincronizados, para que quando o usuário executar algum comando no cliente, o servidor possa responder com a resposta correta.</p>
+<p>A construção do projeto usando essa arquitetura foi imposta, pois os participantes do desenvolvimento do projeto não possuíam pleno conhecimento da linguagem JavaScript, para que ela fosse construída.</p>
+</div>
+<div class="section" id="estrutura-de-arquivos">
+<h2>Estrutura de arquivos<a class="headerlink" href="#estrutura-de-arquivos" title="Permalink to this headline">¶</a></h2>
+<p>O simulador está dividido em uma séria de diretórios.</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>Docs/</cite>               Nesse diretório está localizado todos os documentos relacionados a documentação.</li>
+<li><cite>Docs/source/</cite>                Neste diretório dentro da pasta Docs, está a documentação criada com Sphinx. Para mais detalhes de como manusear, visite: <a class="reference external" href="http://sphinx.pocoo.org">http://sphinx.pocoo.org</a></li>
+<li><cite>Docs/build/html/</cite>            Neste diretório está a documentação em HTML gerada pelo Sphinx. Também é possível gerar PDF, EPUB, entre outros formatos.</li>
+<li><cite>src/</cite>        Código fonte java, que irá rodar no servidor.</li>
+<li><cite>WebContent/</cite>         Codigo HTML, JavaScript, CSS, que irá funcionar no cliente.</li>
+<li><cite>WebContent/WEB-INF/</cite> Libs .jar que serão usadas pelo codigo fonte java.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="diagrama-de-classe-do-servidor">
+<h2>Diagrama de Classe do Servidor<a class="headerlink" href="#diagrama-de-classe-do-servidor" title="Permalink to this headline">¶</a></h2>
+<p>Abaixo está o diagrama de classes da parte do core do projeto que é executada no servidor.</p>
+<a class="reference internal image-reference" href="_images/DiagramadeClasse.png"><img alt="_images/DiagramadeClasse.png" src="_images/DiagramadeClasse.png" style="height: 520.0px;" /></a>
+</div>
+<div class="section" id="funcionamento-do-cliente">
+<h2>Funcionamento do Cliente<a class="headerlink" href="#funcionamento-do-cliente" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Como já dito, o cliente  funciona com o uso de ajax. Cada objeto construído no cliente irá ser enviado para o servidor.</p>
+<ul class="simple">
+<li>Abaixo exemplo de código para a chamada do ping no Servidor:</li>
+</ul>
+<p>$(document).ready(function(){</p>
+<blockquote>
+<div><p>$(&#8220;#enviar_ping&#8221;).click(function(){</p>
+<blockquote>
+<div><p>if($(this).attr(&#8220;data-id&#8221;) != &#8220;&#8221;){</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>$.ajax({</dt>
+<dd><p class="first">type: &#8216;POST&#8217;,
+url: &#8216;SessionManagerServlet&#8217;,
+data: {</p>
+<blockquote>
+<div><blockquote>
+<div>&#8220;operacao&#8221; : &#8220;processarpacote&#8221;,
+&#8220;idRede&#8221; : sessionId,
+&#8220;nomeOrigem&#8221; : $(this).attr(&#8216;data-id-origem&#8217;),
+&#8220;ipDestino&#8221; : &#8220;192.168.0.1&#8221;,
+&#8220;conteudo&#8221; : &#8220;1&#8221;</div></blockquote>
+<p>},</p>
+</div></blockquote>
+<p class="last">dataType: &#8216;json&#8217;</p>
+</dd>
+</dl>
+<p>}).done(function(resposta){</p>
+<blockquote>
+<div>$(&#8220;#text_terminal&#8221;).append(resposta.retorno + &#8220;n&#8221;);</div></blockquote>
+<p>});</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>});</p>
+</div></blockquote>
+<p>});</p>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Para Desenvolvedores</a><ul>
+<li><a class="reference internal" href="#visao-geral-sobre-arquitetura-do-simulador">Visão geral sobre arquitetura do Simulador</a></li>
+<li><a class="reference internal" href="#estrutura-de-arquivos">Estrutura de arquivos</a></li>
+<li><a class="reference internal" href="#diagrama-de-classe-do-servidor">Diagrama de Classe do Servidor</a></li>
+<li><a class="reference internal" href="#funcionamento-do-cliente">Funcionamento do Cliente</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Instalacao.html"
+                        title="previous chapter">Download e Instalação</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="HISTORY.html"
+                        title="next chapter">Simulador de Rede</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Developers.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="HISTORY.html" title="Simulador de Rede"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Instalacao.html" title="Download e Instalação"
+             >previous</a> |</li>
+        <li><a href="index.html">Simulador de Rede  v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Danilo Soares, Fabio Santos, Gilson Freitas, Marcelo Coelho ,Nielson Santana ,Tiago Gondim, Siedberg Silva, Raphael Ribeiro.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
